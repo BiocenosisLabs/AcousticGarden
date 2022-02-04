@@ -5,7 +5,7 @@ import multer, { MulterError } from "multer";
 import APIError from "../helpers/errors";
 
 const DEFAULT_FILE_MAX_SIZE = 5 * 1000 * 1000;
-const DEFAULT_FILE_TYPES = ["mp3", "mpga"];
+const DEFAULT_FILE_TYPES = ["mp3", "mpga", "wav", "webm"];
 
 function generateFileName(ext) {
   const suffix = `${Date.now()}${Math.round(Math.random() * 1e9)}`;
@@ -28,6 +28,7 @@ function generateFileName(ext) {
 // ]
 export default function uploadFiles(fields) {
   const fileFilter = (req, file, cb) => {
+    console.log(file)
     const ext = mime.getExtension(file.mimetype);
 
     const {
