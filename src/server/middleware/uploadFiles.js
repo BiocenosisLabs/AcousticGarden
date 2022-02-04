@@ -28,7 +28,6 @@ function generateFileName(ext) {
 // ]
 export default function uploadFiles(fields) {
   const fileFilter = (req, file, cb) => {
-    console.log(file)
     const ext = mime.getExtension(file.mimetype);
 
     const {
