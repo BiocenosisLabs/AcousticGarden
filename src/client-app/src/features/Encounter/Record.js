@@ -3,11 +3,14 @@ import React from "react";
 export class Record extends React.Component {
     constructor(props) {
         super(props);
+        props.setStartHandler(this.handleStart)
     }
 
     state = {
         mediaData: null,
         downloadLink: {},
+        recording: false,
+        showRecording: true,
     }
 
     recordingLimit = 60 * 1000
@@ -16,20 +19,33 @@ export class Record extends React.Component {
 
     render() {
 
+        //TODO:: animate with framer motion or something, not css
+
         return (
-            <div>
-                <button onClick={this.handleStartPress}> Start Recording </button>
+            <div className={`prose prose-invert flex justify-center ${(this.props.show) ? '' : 'hidden invisible' }`}>
+                <div className={"flex flex-row"}>
 
-                <button onClick={this.handleStopPress}> Stop </button>
-                <button onClick={this.handleUploadPress}> iup </button>
+                    <span
+                        className={`fade ${this.state.showRecording ? 'fade-in' : 'fade-out'} text-xl font-bold p-24`}
+                        onClick={() => this.handleStop()}
+                    >
+                        Recording...
+                    </span>
 
-                <a {...this.state.downloadLink}> Download </a>
+                    {/*{!this.state.recording && (*/}
+                    {/*    <WhiteBlockButton onClick={this.handleStartPress}> Start Recording </WhiteBlockButton>*/}
+                    {/*) }*/}
+
+                    {/*<div className={"absolute bottom-0 p-2 flex place-items-center w-full justify-between"}>*/}
+                    {/*    <a {...this.state.downloadLink}> Download </a>*/}
+                    {/*</div>*/}
+                </div>
+
             </div>
         );
     }
 
-
-    handleStartPress = async () => {
+    handleStart = async () => {
         if (await this.askPermissions()) {
             const userMedia = await navigator.mediaDevices.getUserMedia({ audio: {
                     echoCancellation: false,
@@ -37,7 +53,13 @@ export class Record extends React.Component {
                 },
                 video: false,
             })
+            navigator.vibrate(100)
+            this.setState({
+                recording: true,
+            })
             this.handleUserMedia(userMedia)
+        } else {
+            console.warn("Record::handleStart: Not recording due to permissions")
         }
     }
 
@@ -49,17 +71,17 @@ export class Record extends React.Component {
         } else if (result.state === 'prompt') {
 
         } else if (result.state === 'denied') {
-
+            console.warn("Record:: Permissions Denied")
         }
         result.onchange = function() {
-
+            console.warn("Record:: Permissions changed but unhandled")
         };
     }
 
     handleUserMedia = (stream) => {
-        console.log("handleUserMedia",stream)
-        const options = {mimeType: 'audio/webm'};
+        console.info({stream})
 
+        const options = {mimeType: 'audio/webm'};
         this.mediaRecorder = new MediaRecorder(stream, options);
 
         this.recordedChunks = [];
@@ -67,56 +89,37 @@ export class Record extends React.Component {
             timeStarted: Date.now(),
         })
 
-        this.mediaRecorder.addEventListener('dataavailable', (e) => {
-            if (e.data.size > 0) this.recordedChunks.push(e.data);
-
-            if (Date.now() - this.state.timeStarted > this.recordingLimit) {
-                this.handleStopPress()
-            }
-        });
-        this.mediaRecorder.start();
+        this.mediaRecorder.addEventListener('dataavailable', this.handleDataAvailable);
+        this.mediaRecorder.start(1000);
+        this.mediaRecorder.addEventListener('stop', () => {
+            stream.getTracks().forEach( track => track.stop() );
+        })
     };
 
-    handleStopPress = () => {
-        console.log("stopped")
-        this.mediaRecorder.stop()
-        console.log(this.state)
+    handleDataAvailable = (data) => {
+        if (data.data.size > 0) {
+            this.recordedChunks.push(data.data);
+        }
 
-        const blob = new Blob(this.recordedChunks,  {type: 'audio/webm'});
-
-        this.setState({
-            blob,
-            downloadLink: {
-                href: URL.createObjectURL(blob),
-                download: 'Recording-1.wav',
-            }
-        })
-        console.log(this.recordedChunks)
-        console.log(this.state)
-    }
-
-    handleUploadPress = () => {
-
-        const formData = new FormData();
-        const fileField = document.querySelector('input[type="file"]');
-
-        formData.append('username', 'abc123');
-        formData.append('location', 'abc123');
-        formData.append('recording', this.state.blob);
-
-        fetch('/recording', {
-            method: 'PUT',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(result => {
-                console.log('Success:', result);
+        if ((Date.now() - this.state.timeStarted) > this.recordingLimit) {
+            this.handleStop()
+        } else {
+            const secs = ((Date.now() - this.state.timeStarted)/1000)
+            console.log("Recorded s",Math.round(secs))
+            this.setState({
+                recording: true,
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-
+        }
     }
+
+    handleStop = () => {
+        console.info("Record:: Successfully finished.")
+        this.mediaRecorder.stop()
+        const blob = new Blob(this.recordedChunks,  {type: 'audio/webm'});
+        this.props.onDone(blob)
+    }
+
+
 
 }
 

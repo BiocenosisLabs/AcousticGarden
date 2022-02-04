@@ -42,9 +42,9 @@ export class Walk extends React.Component {
     render() {
         return (
             <div id={'map'}>
-                <MapContainer className={"w-2/3 h-96"} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+                <MapContainer className={"h-96"} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
                     <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        attribution='<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <LocationMarker />

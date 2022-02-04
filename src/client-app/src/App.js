@@ -2,6 +2,7 @@ import './App.css';
 
 import {isMobile} from 'react-device-detect';
 import {Encounter} from "./features/Encounter/Encounter";
+import {SmallContainer} from "./features/Encounter/common";
 
 function App() {
 
@@ -13,12 +14,14 @@ function App() {
 
   // on desktop - redirect to browse, show your local spirits?
   if (isMobile) {
-    return <div>
+    return (<SmallContainer>
       <Encounter />
-    </div>
+    </SmallContainer>)
   }
 
-  return <div> <Encounter /> </div>
+  return (<SmallContainer>
+    <Encounter />
+  </SmallContainer>)
 }
 
 export default App;

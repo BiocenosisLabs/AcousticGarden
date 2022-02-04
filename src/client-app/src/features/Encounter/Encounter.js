@@ -1,58 +1,91 @@
 import React from 'react';
 import {Record} from "./Record";
 import {Walk} from "./Walk";
-
-const RecordButton = ({onPress}) =>
-(<div onClick={onPress}>
-        Record
-    </div>)
-
+import {WhiteBlockButton} from "./common";
+import {uploadRecording} from "./utils";
 
 export class Encounter extends React.Component {
 
     state = {
-       'mode': 'walking'
+       'mode': 'encounter'
     }
+
+    startHandler = null
+    setStartHandler = (handler) => this.startHandler = handler
 
     handlePressRecord = () => {
         this.setState({'mode': 'recording'})
+        this.startHandler?.()
     }
 
-    render() {
+    handleRecordingDone = async (blob) => {
+        this.setState({
+            'mode': 'uploading'
+        })
+        await uploadRecording({
+            user: '1234',
+            location: '1,-1',
+            recording: blob,
+        })
+        this.setState({
+            'mode':'done',
+        })
 
-        return (
-            <div>
-                {this.state.mode === 'walking' && (
-                   <div>
-                    <span>
-                        Walk near the spirit of your place and help it grow
+        // TODO: 'Download' the recording blog back to the user
+        this.setState({
+            // blob,
+            // downloadLink: {
+            //     href: URL.createObjectURL(blob),
+            //     download: 'Recording-1.wav',
+            // }
+        })
+    }
+
+    handleReset = () => {
+        this.setState({
+            'mode':'encounter',
+        })
+    }
+
+
+    render() {
+        return (<>
+                {this.state.mode === 'encounter' && (
+                   <div className={"flex flex-col justify-center "}>
+                    <span className={"prose text-xl prose-invert"}>
+                         Record ecological territories to help the spirit of your place grow.
                     </span>
                        <Walk></Walk>
-                       <RecordButton onPress={this.handlePressRecord}/>
+                       <WhiteBlockButton onClick={this.handlePressRecord}> Record </WhiteBlockButton>
                    </div>
                 )}
 
-                {this.state.mode === 'recording' && (
-                    <Record/>
-                )}
-            </div>
 
-        )
+            {this.state.mode === 'uploading' && (
+                <div className={"flex flex-col justify-center "}>
+                    <span className={"prose text-xl prose-invert"}>
+                         Uploading...
+                    </span>
+                </div>
+            )}
 
-        // const { recorderState, ...handlers } = useRecorder();
-        // const { audio } = recorderState;
-        //
-        // return (
-        //     <div>
-        //         <section className="voice-recorder">
-        //             <h1 className="title">Spirit Recorder</h1>
-        //             <div className="recorder-container">
-        //                 <RecorderControls recorderState={recorderState} handlers={handlers} />
-        //                 <RecordingsList audio={audio} />
-        //             </div>
-        //         </section>
-        //     </div>
-        // );
+            {this.state.mode === 'done' && (
+                <div className={"flex flex-col justify-center "}>
+                    <span className={"prose text-xl prose-invert"}>
+                         The spirits thank you for your recording.
+                    </span>
+                    <WhiteBlockButton onClick={this.handleReset}> More Encounters </WhiteBlockButton>
+                </div>
+            )}
+
+                <Record
+                    show={this.state.mode === 'recording'}
+                    setStartHandler={this.setStartHandler}
+                    onDone={this.handleRecordingDone}
+
+                />
+
+                </>)
 
     }
 }
