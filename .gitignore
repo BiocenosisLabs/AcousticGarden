@@ -4,3 +4,7 @@ build/
 dist/
 .env
 *.db
+*.mp3
+*.mpga
+*.wav
+uploads/recordings/*
