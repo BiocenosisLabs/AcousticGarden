@@ -22,6 +22,11 @@ async function uploadDocuments(req, res, next) {
         fileName: file.filename,
         fileType: mime.getExtension(file.mimetype),
         url: toFileUrl(file.path, RECORDINGS_SUBFOLDER),
+        userId: parseInt(req.body.user),
+        location: {
+          type: "Point",
+          coordinates: [req.body.longitude, req.body.latitude],
+        },
       };
     });
 
