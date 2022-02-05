@@ -4,20 +4,20 @@ import db from "../database";
 import { DOCUMENTS_SUBFOLDER } from "../routes/uploads";
 import { removeFile } from "../helpers/uploads";
 
-const Recording = db.define("recording", {
+const Recording = db.define("spirit", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  fileName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  fileType: {
+  description: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   url: {
     type: DataTypes.STRING,
@@ -25,10 +25,14 @@ const Recording = db.define("recording", {
   },
   location: {
     type: DataTypes.GEOGRAPHY("POINT", 4326),
+    allowNull: false,
+  },
+  level: {
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
-  userId: {
-    type: DataTypes.INTEGER,
+  seed: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
 });
