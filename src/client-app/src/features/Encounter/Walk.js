@@ -38,6 +38,9 @@ function LocationMarker() {
     );
 }
 
+// https://github.com/mapbox/mapbox-gl-leaflet
+// https://github.com/ted-piotrowski/react-leaflet-canvas-overlay
+
 export class Walk extends React.Component {
     render() {
         return (

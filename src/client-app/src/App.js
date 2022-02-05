@@ -2,10 +2,11 @@ import './App.css';
 
 import {isMobile} from 'react-device-detect';
 import {Encounter} from "./features/Encounter/Encounter";
-import {SmallContainer} from "./features/Encounter/common";
+import {MedContainer, SmallContainer} from "./features/ui";
+import {SpiritContainer} from "./features/Spirits/SpiritComponents";
+import {TestMapApp} from "./features/Encounter/TestMapApp";
 
 function App() {
-
 
 
   // request location permissions
@@ -13,16 +14,20 @@ function App() {
   // upload records with geotag
 
   // on desktop - redirect to browse, show your local spirits?
-  if (isMobile) {
+  if (isMobile || window.location.href.includes('/encounter')) {
     return (<SmallContainer>
-      <Encounter />
+      <Encounter/>
     </SmallContainer>)
   }
+  if (window.location.href.includes('/demo1')) {
+    return (<TestMapApp/>)
+  }
+  return (
+      <SpiritContainer/>
+  )
 
-  return (<SmallContainer>
-    <Encounter />
-  </SmallContainer>)
 }
+
 
 export default App;
 
