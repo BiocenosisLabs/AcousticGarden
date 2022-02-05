@@ -31,6 +31,10 @@ const Recording = db.define("recording", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  spiritId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
 });
 
 Recording.addHook("beforeDestroy", (file) => {

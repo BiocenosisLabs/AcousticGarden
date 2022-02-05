@@ -5,7 +5,6 @@ import uploadFilesMiddleware from "../middleware/uploadFiles";
 import uploadsController from "../controllers/uploads";
 import { getPath } from "../helpers/path";
 import { respondWithSuccess } from "../helpers/respond";
-import locationsMiddleware from '../middleware/locationFormatting';
 
 export const FIELD_NAME = "file";
 
@@ -23,7 +22,6 @@ router.get("/", (req, res) => {
 router.post(
   "/recordings",
   logger,
-  locationsMiddleware,
   uploadFilesMiddleware([
     {
       name: FIELD_NAME,
