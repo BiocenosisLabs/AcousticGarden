@@ -16,7 +16,7 @@ export const RecordingBelongsToUser = Recording.belongsTo(User, {
   as: "user",
 });
 
-export const SpiritHasManyRecordings = User.hasMany(Recording, {
+export const SpiritHasManyRecordings = Spirit.hasMany(Recording, {
   foreignKey: "spiritId",
   as: "recordings",
 });

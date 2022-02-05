@@ -1,10 +1,8 @@
 import { DataTypes } from "sequelize";
 
 import db from "../database";
-import { DOCUMENTS_SUBFOLDER } from "../routes/uploads";
-import { removeFile } from "../helpers/uploads";
 
-const Recording = db.define("spirit", {
+const Spirit = db.define("spirit", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -37,8 +35,4 @@ const Recording = db.define("spirit", {
   },
 });
 
-Recording.addHook("beforeDestroy", (file) => {
-  return removeFile(file.url, DOCUMENTS_SUBFOLDER);
-});
-
-export default Recording;
+export default Spirit;
