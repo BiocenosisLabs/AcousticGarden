@@ -11,7 +11,7 @@ import db from "../database";
 
 const findOrGenerateSpirits = async (longitude, latitude) => {
   if (!longitude || !latitude) return;
-  const sql = `SELECT id, name FROM spirits
+  const sql = `SELECT id, name, url FROM spirits
     WHERE (
       ST_DWithin(
         ST_SetSRID(ST_Point(${longitude}, ${latitude}),4326),
@@ -30,7 +30,7 @@ async function uploadDocuments(req, res, next) {
   try {
     const files = req.files[FIELD_NAME];
 
-    const spirit = await findOrGenerateSpirits(
+    const { id, name, url } = await findOrGenerateSpirits(
       req.body.longitude,
       req.body.latitude
     );
@@ -47,7 +47,7 @@ async function uploadDocuments(req, res, next) {
         fileType: mime.getExtension(file.mimetype),
         url: toFileUrl(file.path, RECORDINGS_SUBFOLDER),
         userId: parseInt(req.body.user),
-        spiritId: spirit.id,
+        spiritId: id,
         location: {
           type: "Point",
           coordinates: [req.body.longitude, req.body.latitude],
@@ -61,7 +61,7 @@ async function uploadDocuments(req, res, next) {
       res,
       filterResponseAll(
         response.map((res) => {
-          return { ...res.dataValues, spirit };
+          return { ...res.dataValues, spirit: { id, name, url } };
         }),
         [...baseFileFields, "spirit"]
       ),
