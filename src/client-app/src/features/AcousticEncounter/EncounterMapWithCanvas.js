@@ -35,7 +35,7 @@ function Marker({ map }) {
     )
 }
 
-export function TestMapApp() {
+export function EncounterMapWithCanvas() {
     const [map, setMap] = useState()
 
     // onCreated={state => state.gl.setClearColor("black")}

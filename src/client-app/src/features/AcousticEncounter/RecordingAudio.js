@@ -1,6 +1,6 @@
 import React from "react";
 
-export class Record extends React.Component {
+export class RecordingAudio extends React.Component {
     constructor(props) {
         super(props);
         props.setStartHandler(this.handleStart)

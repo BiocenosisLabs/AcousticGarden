@@ -1,12 +1,11 @@
-import './App.css';
 
 import {isMobile} from 'react-device-detect';
-import {Encounter} from "./features/Encounter/Encounter";
-import {MedContainer, SmallContainer} from "./features/ui";
-import {SpiritContainer} from "./features/Spirits/SpiritComponents";
-import {TestMapApp} from "./features/Encounter/TestMapApp";
+import { SmallContainer} from "./features/ui";
+import {EncounterMapWithCanvas} from "./features/AcousticEncounter/EncounterMapWithCanvas";
+import {SpiritContainer} from "./features/SpiritView";
+import {AcousticEncounter} from "./features/AcousticEncounter";
 
-function App() {
+function Start() {
 
 
   // request location permissions
@@ -16,11 +15,11 @@ function App() {
   // on desktop - redirect to browse, show your local spirits?
   if (isMobile || window.location.href.includes('/encounter')) {
     return (<SmallContainer>
-      <Encounter/>
+      <AcousticEncounter/>
     </SmallContainer>)
   }
   if (window.location.href.includes('/demo1')) {
-    return (<TestMapApp/>)
+    return (<EncounterMapWithCanvas/>)
   }
   return (
       <SpiritContainer/>
@@ -29,5 +28,5 @@ function App() {
 }
 
 
-export default App;
+export default Start;
 
