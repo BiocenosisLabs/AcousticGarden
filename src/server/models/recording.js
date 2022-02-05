@@ -29,6 +29,14 @@ const Recording = db.define("recording", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  location: {
+    type: DataTypes.GEOGRAPHY("POINT", 4326),
+    allowNull: true,
+  },
+  festivalId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
 });
 
 Recording.addHook("beforeDestroy", (file) => {
