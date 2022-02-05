@@ -4,8 +4,10 @@ build/
 dist/
 .env
 *.db
+<<<<<<< HEAD
 *.mp3
 *.mpga
 *.wav
 *.webm
 uploads/recordings/*
+.idea
