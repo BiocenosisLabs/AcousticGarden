@@ -4,7 +4,6 @@ build/
 dist/
 .env
 *.db
-<<<<<<< HEAD
 *.mp3
 *.mpga
 *.wav
