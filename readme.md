@@ -11,6 +11,9 @@ Acoustic Gardens is an ecosystem of sonic applications for participatory engagem
 
 The Acoustic Gardens::'Encounter' app in this repository facilitates an interactive, meditative encounter, for humans to become acoustic guardians of their locality. contributing collectively to the growth of digital genius loci, or spirits of place.
 
+![](src/server/static/images/cyril.jpg)
+
+
 The users, Acoustic Guardians, record local ecosystem sounds, which are added to a licensed dataset. In reward for participating in ecological sensing, humans receive feedback from the digital genius loci and a profit share from their contributions. By participating, guardians are bound economically to re-wild and preserve ecological space.
 
 ## Technology Roadmap
@@ -39,7 +42,7 @@ The users, Acoustic Guardians, record local ecosystem sounds, which are added to
 
 - As generative 3D visualisations of the Spirits of a Place evolve due to a increased sense of biodiversity in audio recordings, their avatars are minted as a set of 50 NTFs and listed on Open Sea. Revenue from the buyers of these evolving spirits of a place get split between contributors of acoustic samples - Rewarding those who are continiously engaging and acting to increase biodiversity in their area.
 
-
+![](src/server/static/images/cyril.jpg)
 
 ---
 
