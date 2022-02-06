@@ -25,7 +25,7 @@ router.post(
   uploadFilesMiddleware([
     {
       name: FIELD_NAME,
-      allowedFileTypes: ["mp3", "mpga", "wav", "webm"],
+      allowedFileTypes: ["mp3", "mpga", "wav", "webm", "weba"],
       maxFileSize: 10 * 1000 * 1000,
     },
   ]),
