@@ -9,16 +9,22 @@ export async function uploadRecording({user, location, recording}) {
 
     const formData = new FormData();
 
-    formData.append('user', user,);
-    formData.append('location', location);
-    formData.append('recording', recording);
+    // Testing
+    location = [1.123, -1.567]
+    user = "1"
 
+    formData.append('user', user,);
+    formData.append('latitude', location[0]);
+    formData.append('longitude', location[1]);
+    formData.append('file', recording);
+
+    // POST /api/uploads/recordings
     return fetch(
         {
-            url: getApiUrl('uploads'),
+            url: getApiUrl('uploads/recordings'),
         },
         {
-            method: 'PUT',
+            method: 'POST',
             body: formData
         }
     )

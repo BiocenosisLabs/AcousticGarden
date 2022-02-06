@@ -13,6 +13,7 @@ export async function getSpirits({lat,long}) {
         ]
     }
 
+    // /api/spirits?lat=123&long=123.
     const url = getApiUrl('spirits')
     const params = {lat, long}
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
