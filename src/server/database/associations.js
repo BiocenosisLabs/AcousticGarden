@@ -4,6 +4,17 @@ import Spirit from "../models/spirit";
 
 export const baseFileFields = ["fileName", "fileType", "url"];
 
+export const spiritFields = [
+  "id",
+  "name",
+  "description",
+  "url",
+  "level",
+  "seed",
+  "latitude",
+  "longitude",
+];
+
 export const UserHasManyRecordings = User.hasMany(Recording, {
   foreignKey: "userId",
   as: "recordings",

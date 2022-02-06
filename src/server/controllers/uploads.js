@@ -6,31 +6,13 @@ import { RECORDINGS_SUBFOLDER, FIELD_NAME } from "../routes/uploads";
 import { baseFileFields } from "../database/associations";
 import { copyToUploadsDir, toFileUrl } from "../helpers/uploads";
 import { filterResponseAll, respondWithSuccess } from "../helpers/respond";
-import { generateSpirit } from "../services/procGen";
-import db from "../database";
-
-const findOrGenerateSpirits = async (longitude, latitude) => {
-  if (!longitude || !latitude) return;
-  const sql = `SELECT id, name, url FROM spirits
-    WHERE (
-      ST_DWithin(
-        ST_SetSRID(ST_Point(${longitude}, ${latitude}),4326),
-        spirits.location,
-        5000
-      )
-    );`;
-  let [spirits] = await db.query(sql);
-  if (spirits.length === 0) {
-    spirits = [await generateSpirit(longitude, latitude)];
-  }
-  return spirits[Math.floor(Math.random() * spirits.length)];
-};
+import { findOrGenerateSpirit } from "../controllers/spirits";
 
 async function uploadDocuments(req, res, next) {
   try {
     const files = req.files[FIELD_NAME];
 
-    const { id, name, url } = await findOrGenerateSpirits(
+    const { id, name, url } = await findOrGenerateSpirit(
       req.body.longitude,
       req.body.latitude
     );
