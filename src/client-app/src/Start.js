@@ -21,9 +21,14 @@ function Start() {
   if (window.location.href.includes('/demo1')) {
     return (<EncounterMapWithCanvas/>)
   }
-  return (
-      <SpiritContainer/>
-  )
+
+  return <SmallContainer>
+    <AcousticEncounter/>
+  </SmallContainer>
+
+  // return (
+  //     <SpiritContainer/>
+  // )
 
 }
 
