@@ -1,10 +1,10 @@
 import React from 'react';
-import {Record} from "./Record";
-import {Walk} from "./Walk";
-import {WhiteBlockButton} from "./common";
-import {uploadRecording} from "./utils";
+import {EncounterMap} from "./AcousticEncounter/EncounterMap";
+import {uploadRecording} from "./AcousticEncounter/upload";
+import {WhiteBlockButton} from "./ui";
+import {RecordingAudio} from "./AcousticEncounter/RecordingAudio";
 
-export class Encounter extends React.Component {
+export class AcousticEncounter extends React.Component {
 
     state = {
        'mode': 'encounter'
@@ -55,7 +55,7 @@ export class Encounter extends React.Component {
                     <span className={"prose text-xl prose-invert"}>
                          Record ecological territories to help the spirit of your place grow.
                     </span>
-                       <Walk></Walk>
+                       <EncounterMap/>
                        <WhiteBlockButton onClick={this.handlePressRecord}> Record </WhiteBlockButton>
                    </div>
                 )}
@@ -78,7 +78,7 @@ export class Encounter extends React.Component {
                 </div>
             )}
 
-                <Record
+                <RecordingAudio
                     show={this.state.mode === 'recording'}
                     setStartHandler={this.setStartHandler}
                     onDone={this.handleRecordingDone}

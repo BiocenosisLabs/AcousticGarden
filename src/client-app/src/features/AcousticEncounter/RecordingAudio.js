@@ -1,6 +1,6 @@
 import React from "react";
 
-export class Record extends React.Component {
+export class RecordingAudio extends React.Component {
     constructor(props) {
         super(props);
         props.setStartHandler(this.handleStart)
@@ -53,7 +53,7 @@ export class Record extends React.Component {
                 },
                 video: false,
             })
-            navigator.vibrate(100)
+            //navigator.vibrate(100)
             this.setState({
                 recording: true,
             })
@@ -64,18 +64,30 @@ export class Record extends React.Component {
     }
 
     askPermissions = async () => {
-        const result = await navigator.permissions.query({name:'microphone'})
+        // perhaps all we need
+        return true
 
-        if (result.state === 'granted') {
-            return true
-        } else if (result.state === 'prompt') {
 
-        } else if (result.state === 'denied') {
-            console.warn("Record:: Permissions Denied")
-        }
-        result.onchange = function() {
-            console.warn("Record:: Permissions changed but unhandled")
-        };
+
+        return new Promise(async (resolve, reject) => {
+            const result = await navigator.permissions.query({name:'microphone'})
+
+            if (result.state === 'granted') {
+                resolve(true)
+            } else if (result.state === 'prompt') {
+                console.info("Record:: Permissions Prompt")
+            } else if (result.state === 'denied') {
+                console.warn("Record:: Permissions Denied")
+                resolve(false)
+            }
+            result.onchange = (state) => {
+                console.warn("Record:: Permissions changed but unhandled")
+                if (state === 'granted') {
+                    resolve(true)
+                }
+            };
+        })
+
     }
 
     handleUserMedia = (stream) => {
