@@ -5,7 +5,7 @@ import multer, { MulterError } from "multer";
 import APIError from "../helpers/errors";
 
 const DEFAULT_FILE_MAX_SIZE = 5 * 1000 * 1000;
-const DEFAULT_FILE_TYPES = ["mp3", "mpga", "wav", "webm"];
+const DEFAULT_FILE_TYPES = ["mp3", "mpga", "wav", "webm", "weba"];
 
 function generateFileName(ext) {
   const suffix = `${Date.now()}${Math.round(Math.random() * 1e9)}`;
