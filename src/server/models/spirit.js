@@ -1,23 +1,21 @@
 import { DataTypes } from "sequelize";
 
 import db from "../database";
-import { DOCUMENTS_SUBFOLDER } from "../routes/uploads";
-import { removeFile } from "../helpers/uploads";
 
-const Recording = db.define("recording", {
+const Spirit = db.define("spirit", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  fileName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  fileType: {
+  description: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   url: {
     type: DataTypes.STRING,
@@ -25,20 +23,16 @@ const Recording = db.define("recording", {
   },
   location: {
     type: DataTypes.GEOGRAPHY("POINT", 4326),
-    allowNull: true,
+    allowNull: false,
   },
-  userId: {
+  level: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  spiritId: {
-    type: DataTypes.INTEGER,
+  seed: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
 });
 
-Recording.addHook("beforeDestroy", (file) => {
-  return removeFile(file.url, DOCUMENTS_SUBFOLDER);
-});
-
-export default Recording;
+export default Spirit;

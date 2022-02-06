@@ -1,3 +1,4 @@
+import path from "path";
 import bodyParser from "body-parser";
 import compression from "compression";
 import cors from "cors";
@@ -9,6 +10,8 @@ import router from "./routes";
 import db from "./database";
 
 const { port } = require("./config");
+
+const imagesDir = path.join(__dirname, "static");
 
 // Check database connection
 db.authenticate()
@@ -68,6 +71,9 @@ app.use(
     },
   })
 );
+
+// Mount static files
+app.use("/api/static", express.static(imagesDir));
 
 // Mount all routes
 app.use("/api", router);
