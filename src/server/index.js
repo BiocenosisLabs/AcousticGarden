@@ -38,10 +38,16 @@ app.use(bodyParser.json());
 
 // Configure CORS
 const dev = new URL("http://localhost:3000");
+const prod = new URL("https://geniusloci.app");
 
 app.use(
   cors({
-    origin: [dev.hostname, new RegExp(`.${dev.hostname}`, "i")],
+    origin: [
+      dev.hostname,
+      new RegExp(`.${dev.hostname}`, "i"),
+      prod.hostname,
+      new RegExp(`.${prod.hostname}`, "i"),
+    ],
     allowedHeaders: [
       "Authorization",
       "Content-Length",
