@@ -8,5 +8,4 @@ dist/
 *.mpga
 *.wav
 *.webm
-uploads/recordings/*
 .idea
