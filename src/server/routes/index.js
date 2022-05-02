@@ -5,6 +5,7 @@ import { respondWithSuccess } from "../helpers/respond";
 import APIError from "../helpers/errors";
 import uploadsRouter from "./uploads";
 import spiritsRouter from "./spirits";
+import feedbackRouter from "./feedback";
 
 const router = express.Router();
 
@@ -15,6 +16,8 @@ router.get("/", (req, res) => {
 router.use("/uploads", uploadsRouter);
 
 router.use("/spirits", spiritsRouter);
+
+router.use("/feedback", feedbackRouter);
 
 router.use(() => {
   throw new APIError(httpStatus.NOT_FOUND);
