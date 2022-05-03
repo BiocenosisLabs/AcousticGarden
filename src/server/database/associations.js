@@ -17,6 +17,8 @@ export const spiritFields = [
 
 export const feedbackFields = ["id", "quality", "userId", "recordingId"];
 
+export const userFields = ["id", "username", "email"];
+
 export const UserHasManyRecordings = User.hasMany(Recording, {
   foreignKey: "userId",
   as: "recordings",

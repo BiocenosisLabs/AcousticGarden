@@ -14,6 +14,8 @@ async function uploadDocuments(req, res, next) {
   try {
     const files = req.files[FIELD_NAME];
 
+    console.log(req.body)
+
     const { id, name, url } = await findOrGenerateSpirit(
       req.body.longitude,
       req.body.latitude
