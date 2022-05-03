@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable("feedback", {
+    return queryInterface.createTable("feedbacks", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -30,6 +30,15 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {
           model: "recordings",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
+      },
+      spiritId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "spirits",
           key: "id",
         },
         onUpdate: "CASCADE",

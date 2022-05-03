@@ -7,6 +7,8 @@ import { baseFileFields } from "../database/associations";
 import { copyToUploadsDir, toFileUrl } from "../helpers/uploads";
 import { filterResponseAll, respondWithSuccess } from "../helpers/respond";
 import { findOrGenerateSpirit } from "../controllers/spirits";
+import submitJob from "../tasks/submitJob";
+import getFeedback from "../tasks/getFeedback";
 
 async function uploadDocuments(req, res, next) {
   try {
@@ -38,6 +40,14 @@ async function uploadDocuments(req, res, next) {
     });
 
     const response = await Recording.bulkCreate(fileEntries);
+
+    response.map((res) => {
+      submitJob(getFeedback, `${res.dataValues.id}`, {
+        userId: parseInt(req.body.user),
+        spiritId: id,
+        recordingId: res.dataValues.id,
+      });
+    });
 
     respondWithSuccess(
       res,

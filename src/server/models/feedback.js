@@ -17,7 +17,11 @@ const Feedback = db.define("feedback", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  feedbackId: {
+  recordingId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  spiritId: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
