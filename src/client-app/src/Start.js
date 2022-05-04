@@ -1,9 +1,12 @@
 
 import {isMobile} from 'react-device-detect';
 import { SmallContainer} from "./features/ui";
+import { Web3Login } from "./features/Web3Login";
 import {EncounterMapWithCanvas} from "./features/AcousticEncounter/EncounterMapWithCanvas";
 import {SpiritContainer} from "./features/SpiritView";
 import {AcousticEncounter} from "./features/AcousticEncounter";
+
+
 
 function Start() {
 
@@ -23,6 +26,7 @@ function Start() {
   }
 
   return <SmallContainer>
+    <Web3Login />
     <AcousticEncounter/>
   </SmallContainer>
 
