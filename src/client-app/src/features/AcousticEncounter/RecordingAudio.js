@@ -1,5 +1,13 @@
 import React from "react";
 
+
+const Timer = ({limit, elapsed}) => {
+    const secs = `${Math.round((limit - elapsed)/1000)}`
+    const secsString = secs.padStart(2,"0")
+    return (<span>-00:{secsString}</span>)
+}
+
+
 export class RecordingAudio extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +21,7 @@ export class RecordingAudio extends React.Component {
         showRecording: true,
     }
 
-    recordingLimit = 60 * 1000
+    recordingLimit = 10 * 1000
     mediaRecorder = null
     recordedChunks = []
 
@@ -23,7 +31,7 @@ export class RecordingAudio extends React.Component {
 
         return (
             <div className={`prose prose-invert flex justify-center ${(this.props.show) ? '' : 'hidden invisible' }`}>
-                <div className={"flex flex-row"}>
+                <div className={"flex flex-col"}>
 
                     <span
                         className={`fade ${this.state.showRecording ? 'fade-in' : 'fade-out'} text-xl font-bold p-24`}
@@ -31,6 +39,11 @@ export class RecordingAudio extends React.Component {
                     >
                         Recording...
                     </span>
+
+                    <div>
+                        <Timer limit={this.recordingLimit} elapsed={this.state.elapsedMS ?? 0} />
+
+                    </div>
 
                     {/*{!this.state.recording && (*/}
                     {/*    <WhiteBlockButton onClick={this.handleStartPress}> Start Recording </WhiteBlockButton>*/}
@@ -116,11 +129,12 @@ export class RecordingAudio extends React.Component {
         if ((Date.now() - this.state.timeStarted) > this.recordingLimit) {
             this.handleStop()
         } else {
-            const secs = ((Date.now() - this.state.timeStarted)/1000)
-            console.log("Recorded s",Math.round(secs))
             this.setState({
                 recording: true,
+                elapsedMS: Date.now() - this.state.timeStarted,
             })
+            console.log("Recorded s",Math.round(this.state.elapsedMS/1000))
+
         }
     }
 

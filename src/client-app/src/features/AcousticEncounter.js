@@ -55,7 +55,7 @@ export class AcousticEncounter extends React.Component {
                     <span className={"prose text-xl prose-invert"}>
                          Record ecological territories to help the spirit of your place grow.
                     </span>
-                       <EncounterMap/>
+                       <EncounterMap onUpdateLocation={this.handleUpdateLocation}/>
                        <WhiteBlockButton onClick={this.handlePressRecord}> Record </WhiteBlockButton>
                    </div>
                 )}

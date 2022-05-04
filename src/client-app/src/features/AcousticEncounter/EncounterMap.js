@@ -1,57 +1,37 @@
 import {MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet'
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import L from 'leaflet'
-// require("leaflet/dist/leaflet.css")
 import "leaflet/dist/leaflet.css"
 
-function LocationMarker() {
-    const [position, setPosition] = useState(null);
-    const [bbox, setBbox] = useState([]);
 
-    const map = useMap();
-
-    useEffect(() => {
-        map.locate().on("locationfound", function (e) {
-            setPosition(e.latlng);
-            map.setView(e.latlng, map.getZoom());
-            // map.locate({
-            //     watch: false,
-            //     setView: true
-            // })
-            //const radius = e.accuracy;
-            // const circle = Circle(e.latlng, radius);
-            // circle.addTo(map);
-            setBbox(e.bounds.toBBoxString().split(","));
-        });
-    }, [map]);
-
-    return position === null ? null : (
-        <Marker position={position} >
-            <Popup>
-                You are here. <br />
-                Map bbox: <br />
-                <b>Southwest lng</b>: {bbox[0]} <br />
-                <b>Southwest lat</b>: {bbox[1]} <br />
-                <b>Northeast lng</b>: {bbox[2]} <br />
-                <b>Northeast lat</b>: {bbox[3]}
-            </Popup>
-        </Marker>
-    );
-}
 
 // https://github.com/mapbox/mapbox-gl-leaflet
 // https://github.com/ted-piotrowski/react-leaflet-canvas-overlay
+
+const LocationMarker = ({ map }) => {
+
+    const [position, setPosition] = useState(map.getCenter())
+
+    var marker = L.marker(position).addTo(map);
+
+//     return position === null ? null : (
+//         <Marker position={position}>
+//         </Marker>
+//     )
+    <></>
+ }
 
 
 function DisplayPosition({ map }) {
     const [position, setPosition] = useState(map.getCenter())
 
-    const onClick = useCallback(() => {
-        map.setView(center, zoom)
-    }, [map])
+    // const onClick = useCallback(() => {
+    //     map.setView(center, zoom)
+    // }, [map])
 
     const onMove = useCallback(() => {
         setPosition(map.getCenter())
+        console.log("map moved")
     }, [map])
 
     useEffect(() => {
@@ -65,21 +45,20 @@ function DisplayPosition({ map }) {
         map.locate().on("locationfound", function (e) {
             setPosition(e.latlng);
             map.setView(e.latlng, map.getZoom());
+            L.marker(e.latlng).addTo(map);
             // map.locate({
             //     watch: false,
             //     setView: true
             // })
-            //const radius = e.accuracy;
-            // const circle = Circle(e.latlng, radius);
-            // circle.addTo(map);
-            //setBbox(e.bounds.toBBoxString().split(","));
+
+
         });
     }, [map]);
 
     return (
         <p>
             latitude: {position.lat.toFixed(4)}, longitude: {position.lng.toFixed(4)}{' '}
-            <button onClick={onClick}>reset</button>
+            {/*<button onClick={onClick}>reset</button>*/}
         </p>
     )
 }
@@ -94,6 +73,7 @@ export function EncounterMap() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+                {map ? <LocationMarker />: <></>}
             </MapContainer>
         ),
         [],
