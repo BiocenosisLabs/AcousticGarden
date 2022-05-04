@@ -20,3 +20,7 @@ body {
 .fade-out {
     opacity: 0;
 }
+
+.map-container {
+    height: 400px;
+}

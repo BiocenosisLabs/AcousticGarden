@@ -1,91 +1,66 @@
-import {MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet'
-import React, {useCallback, useEffect, useMemo, useState} from "react";
-import L from 'leaflet'
-import "leaflet/dist/leaflet.css"
+import React, { useRef, useEffect, useState } from 'react';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+mapboxgl.accessToken = 'pk.eyJ1IjoiaGVsbG9rb3ptbyIsImEiOiJjbDJyaTRxeWQwNDI2M2Nucnlyd3V1OTRrIn0.OxZp7HHu2oZ4WFjF8KKGcg';
 
+export function EncounterMap({location}) {
 
+    console.log("EncounterMap location:",location)
 
-// https://github.com/mapbox/mapbox-gl-leaflet
-// https://github.com/ted-piotrowski/react-leaflet-canvas-overlay
+    const mapContainer = useRef(null);
+    const map = useRef(null);
 
-const LocationMarker = ({ map }) => {
+    const [lng, setLng] = useState(location?.longitude ?? 1.0);
+    const [lat, setLat] = useState(location?.latitude ?? 1.0);
+    const [zoom, setZoom] = useState(12);
 
-    const [position, setPosition] = useState(map.getCenter())
-
-    var marker = L.marker(position).addTo(map);
-
-//     return position === null ? null : (
-//         <Marker position={position}>
-//         </Marker>
-//     )
-    <></>
- }
-
-
-function DisplayPosition({ map }) {
-    const [position, setPosition] = useState(map.getCenter())
-
-    // const onClick = useCallback(() => {
-    //     map.setView(center, zoom)
-    // }, [map])
-
-    const onMove = useCallback(() => {
-        setPosition(map.getCenter())
-        console.log("map moved")
-    }, [map])
 
     useEffect(() => {
-        map.on('move', onMove)
-        return () => {
-            map.off('move', onMove)
-        }
-    }, [map, onMove])
-
-    useEffect(() => {
-        map.locate().on("locationfound", function (e) {
-            setPosition(e.latlng);
-            map.setView(e.latlng, map.getZoom());
-            L.marker(e.latlng).addTo(map);
-            // map.locate({
-            //     watch: false,
-            //     setView: true
-            // })
-
-
+        if (map.current) {
+            if (location?.longitude) setLng(location.longitude)
+            if (location?.latitude) setLat(location.latitude)
+            return;
+        } // initialize map only once
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [location?.longitude ?? 1.0, location?.latitude ?? 1.0],
+            zoom: zoom
         });
-    }, [map]);
+    });
 
-    return (
-        <p>
-            latitude: {position.lat.toFixed(4)}, longitude: {position.lng.toFixed(4)}{' '}
-            {/*<button onClick={onClick}>reset</button>*/}
-        </p>
-    )
-}
-
-export function EncounterMap() {
-    const [map, setMap] = useState(null)
-
-    const displayMap = useMemo(
-        () => (
-            <MapContainer className={"h-full"}  center={center} zoom={zoom} whenCreated={setMap}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {map ? <LocationMarker />: <></>}
-            </MapContainer>
-        ),
-        [],
-    )
 
 
     return (
-        <div className={"h-96"} >
-            {map ? <DisplayPosition map={map} /> : null}
-            {displayMap}
+        <div>
+            <div ref={mapContainer} className="map-container" />
         </div>
-    )
+    );
+
+    //
+    // const displayMap = useMemo(
+    //     () => (
+    //         <MapContainer className={"h-full"}  center={location} zoom={zoom} whenCreated={setMap}>
+    //             <TileLayer
+    //                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    //                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    //             />
+    //             {map ? <LocationMarker />: <></>}
+    //         </MapContainer>
+    //     ),
+    //     [],
+    // )
+    //
+    // console.log(location)
+    // console.log()
+    //
+    //
+    // return (
+    //     <div className={"h-96"} >
+    //         {map ? <DisplayPosition map={map} /> : null}
+    //         {displayMap}
+    //     </div>
+    // )
 }
 
 const center = [51.505, -0.09]
