@@ -3,19 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-three/drei": "^9.7.1",
+    "@react-three/fiber": "^8.0.13",
     "@tailwindcss/typography": "^0.5.1",
-    "leaflet": "^1.7.1",
-    "react": "^17.0.2",
+    "react": "^18.1.0",
     "react-device-detect": "^2.1.2",
-    "react-dom": "^17.0.2",
-    "react-leaflet": "^3.2.5",
-    "react-scripts": "5.0.0",
-    "react-three-fiber": "^6.0.13",
-    "three": "^0.137.5",
-    "uuid": "^8.3.2"
+    "react-dom": "^18.1.0",
+    "react-scripts": "^5.0.1",
+    "three": "^0.140.0",
+    "uuid": "^8.3.2",
+    "web3": "^1.7.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

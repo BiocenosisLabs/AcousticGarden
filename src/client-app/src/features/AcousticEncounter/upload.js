@@ -9,29 +9,35 @@ export async function uploadRecording({user, location, recording}) {
 
     const formData = new FormData();
 
-    // Testing
-    location = [1.123, -1.567]
-    user = "1"
-
     formData.append('user', user,);
     formData.append('latitude', location[0]);
     formData.append('longitude', location[1]);
     formData.append('file', recording, 'blob.webm');
 
+    let feedback = {
+        spirit: {
+            name: 'Henry',
+            exp: 12304,
+            lvl: 999,
+        }
+    }
+
 
     // POST /api/uploads/recordings
-    return fetch(getApiUrlString('uploads/recordings'),
+    const ret = await fetch(getApiUrlString('uploads/recordings'),
         {
             method: 'POST',
             body: formData
         }
     )
-        .then(response => response.json())
+        .then(response => feedback = response.json())
         .then(result => {
             console.log('Success:', result);
         })
-        .catch(error => {
+        .catch(async error => {
             console.error('Error:', error);
+            await new Promise(resolve => setTimeout(resolve, 2000))
         });
 
+    return feedback
 }

@@ -24,3 +24,7 @@ body {
 .map-container {
     height: 400px;
 }
+
+canvas {
+    height: 100vh;
+}

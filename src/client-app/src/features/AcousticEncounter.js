@@ -4,39 +4,48 @@ import {uploadRecording} from "./AcousticEncounter/upload";
 import {WhiteBlockButton} from "./ui";
 
 const Timer = ({limit, elapsed}) => {
-    const secs = `${Math.round((limit - elapsed)/1000)}`
-    const secsString = secs.padStart(2,"0")
+    const secs = `${Math.round((limit - elapsed) / 1000)}`
+    const secsString = secs.padStart(2, "0")
     return (<span>-00:{secsString}</span>)
 }
 
 export class AcousticEncounter extends React.Component {
 
     state = {
-        'mode': 'Loading',
-        'location': null
+        'mode': 'PlayStart', // App visual state - (Which screen to show)
+        'permissions': false, // Has the user allowed mic and loc permissions?
+        'location': null, // {latitude: 52.4849011, longitude: 13.4350596}
+        'recording': false, // boolean state
+        'timeStarted': null, // time the recording was started.
+        'username': 'testuser',
+        'uploading': false,
+        'recordingFeedback': null,
+        'spiritFeedback': null,
     }
 
-    recordingLimit = 10 * 1000
+    recordingLimit = 10 * 1000 // Time in ms the recording will stop after
     mediaRecorder = null
+    userMedia = null // MediaStream object to record from
+    geoWatchID = null // ID to cancel polling geolocation
     recordedChunks = []
 
     constructor(props) {
         super(props);
         try {
-            this.handleRequestPermissions().then(this.handleInitialPermissions)
+            this.handleRequestPermissions()
         } catch (e) {
-            console.log("Permissions not previously accepted",e)
-            this.setState({'mode': 'PermissionsRequest'})
+            console.log("Permissions not previously accepted at load time", e)
+            this.setState({'mode': 'PlayStart', permissions: false,})
         }
     }
 
-    handleInitialPermissions = (value) => {
+    setPermissions = (value) => {
         if (value) {
-            console.log("Permissions previously accepted")
-            this.setState({'mode':'Encounter'})
+            console.log("Permissions accepted")
+            this.setState({'mode': 'Encounter', permissions: true})
         } else {
-            console.log("Permissions not previously accepted")
-            this.setState({'mode': 'PermissionsRequest'})
+            console.log("Permissions not accepted")
+            this.setState({'mode': 'PlayStart', permission: false})
         }
     }
 
@@ -46,8 +55,10 @@ export class AcousticEncounter extends React.Component {
 
         // Obtain geolocation watch
         const success = (pos) => {
-            console.log("Got Position:",pos)
+            console.log("Got Position:", pos)
             if (pos?.coords) {
+                // Set state via setState or directly incase this is called in constructor.
+                this.state.location = pos.coords
                 this.setState({location: pos.coords});
             }
         }
@@ -58,27 +69,29 @@ export class AcousticEncounter extends React.Component {
             maximumAge: 0
         };
 
-        if (this.state.geoWatchID) {
+        if (this.geoWatchID) {
             try {
-                navigator.geolocation.clearWatch(this.state.geoWatchID)
-            } catch {}
+                navigator.geolocation.clearWatch(this.geoWatchID)
+            } catch {
+            }
         }
 
         let geoWatchID
         try {
             navigator.geolocation.getCurrentPosition(success, error, options)
             geoWatchID = navigator.geolocation.watchPosition(success, error, options); // later: cleanup the geolocation watch via navigator.geolocation.clearWatch(id);
-            this.setState({geoWatchID})
+            this.geoWatchID = geoWatchID
             console.log("GeoWatchId:", geoWatchID)
         } catch (e) {
-            console.warn("Gelocation permissions denied",e)
+            console.warn("Gelocation permissions denied", e)
             return false
         }
 
-        if (this.state.userMedia) {
+        if (this.userMedia) {
             try {
-                this.state.userMedia = null
-            } catch {}
+                this.userMedia = null
+            } catch {
+            }
         }
 
         let userMedia
@@ -91,20 +104,16 @@ export class AcousticEncounter extends React.Component {
                 },
                 video: false,
             })
-            this.setState({userMedia})
+            this.userMedia = userMedia
             console.log("userMedia", userMedia)
 
         } catch (e) {
-            console.warn("UserMedia permissions denied",e)
+            console.warn("UserMedia permissions denied", e)
             return false
         }
 
         // Move to the next app screen state if permissions granted
-        if (geoWatchID !== null && userMedia !== null) {
-            this.setState({
-                mode:'Encounter'
-            })
-        }
+        this.setPermissions((geoWatchID !== null && userMedia !== null))
     }
 
     handlePressRecord = () => {
@@ -114,11 +123,11 @@ export class AcousticEncounter extends React.Component {
 
     handleRecordingStart = () => {
         //navigator.vibrate(100)
-        this.handleRecordingUserMedia(this.state.userMedia)
+        this.handleRecordingUserMedia(this.userMedia)
     }
 
     handleRecordingUserMedia = (stream) => {
-        console.info("Record:: handleRecordingUserMedia",stream)
+        console.info("Record:: handleRecordingUserMedia", stream)
 
         const options = {mimeType: 'audio/webm'};
         this.mediaRecorder = new MediaRecorder(stream, options);
@@ -132,7 +141,7 @@ export class AcousticEncounter extends React.Component {
         this.mediaRecorder.addEventListener('dataavailable', this.handleRecordingDataAvailable);
         this.mediaRecorder.start(1000);
         this.mediaRecorder.addEventListener('stop', () => {
-            stream.getTracks().forEach( track => track.stop() );
+            stream.getTracks().forEach(track => track.stop());
         })
     };
 
@@ -148,31 +157,39 @@ export class AcousticEncounter extends React.Component {
                 recording: true,
                 elapsedMS: Date.now() - this.state.timeStarted,
             })
-            console.log("Record::",Math.round(this.state.elapsedMS/1000))
+            console.log("Record::", Math.round(this.state.elapsedMS / 1000))
         }
     }
 
     handleRecordingStop = () => {
         console.info("Record:: Successfully finished.")
         this.mediaRecorder.stop()
-        const blob = new Blob(this.recordedChunks,  {type: 'audio/webm'});
+        this.userMedia = null
+        const blob = new Blob(this.recordedChunks, {type: 'audio/webm'});
         this.handleRecordingDone(blob)
     }
 
     handleRecordingDone = async (blob) => {
         this.setState({
-            'mode': 'Upload'
+            uploading: true,
+            mode: 'RecordingFeedback'
         })
-        await uploadRecording({
-            user: '1234',
-            location: '1,-1',
+
+        const recordingFeedback = await this.getRecordingFeedback(blob)
+        this.setState({recordingFeedback})
+
+        const spiritFeedback = await uploadRecording({
+            user: this.state.username,
+            location: [this.state.location.latitude, this.state.location.longitude],
             recording: blob,
         })
         this.setState({
-            'mode':'done',
+            uploading: false,
+            spiritFeedback,
         })
 
-        // TODO: 'Download' the recording blog back to the user
+        // TODO: 'Download' the recording blob back to the user
+        this.recordingBlob = blob
         this.setState({
             // blob,
             // downloadLink: {
@@ -182,76 +199,123 @@ export class AcousticEncounter extends React.Component {
         })
     }
 
-    handleReset = () => {
-        this.setState({
-            'mode':'Encounter',
-        })
+    getRecordingFeedback = async (blob) => {
+        return {
+            'graph': [1,2,3,4,5]
+        }
     }
 
+    handleSubmitRecording = async () => {
+        if (this.state.uploading) {
+            console.log('still uploading')
+        } else {
+            this.setState({'mode': 'SpiritFeedback'})
+        }
+    }
 
+    handleReset = () => {
+        this.recordingBlob = null
+        this.mediaRecorder = null
+
+        this.setState({
+            uploading: false,
+            recording: null,
+            elapsedMS: null,
+            timeStarteD: null,
+            'mode': 'Encounter',
+        })
+    }
 
 
     render() {
 
         return (<>
-                {this.state.mode === 'PermissionsRequest' && (
-                    <div className={"flex flex-col justify-center "}>
+            {this.state.mode === 'PlayStart' && (
+                <div className={"flex flex-col justify-center "}>
                     <span className={"prose text-xl prose-invert"}>
 
                     </span>
-                        <WhiteBlockButton onClick={this.handleRequestPermissions}>
-                            Allow Location and Microphone access to record sound in your area
-                        </WhiteBlockButton>
-                    </div>
-                )}
+                    <WhiteBlockButton onClick={this.handleRequestPermissions}>
+                        Allow Location and Microphone access to record sound in your area
+                    </WhiteBlockButton>
+                </div>
+            )}
 
-                {this.state.mode === 'Encounter' && (
-                   <div className={"flex flex-col justify-center "}>
 
+            {this.state.mode === 'Encounter' && this.renderEncounterMap()}
+
+            {this.state.mode === 'Record' && this.renderRecording()}
+
+            {this.state.mode === 'RecordingFeedback' && this.renderRecordingFeedback()}
+
+            {this.state.mode === 'SpiritFeedback' && this.renderSpiritFeedback()}
+
+
+        </>)
+
+    }
+
+    renderEncounterMap() {
+        return <div className={"flex flex-col justify-center "}>
+
+            {(this.state.permissions) ?
+                (<>
                        <span className={"prose text-xl prose-invert"}>
                          Record ecological territories to help the spirit of your place grow.
                     </span>
-                       <EncounterMap location={this.state.location}/>
-                       <WhiteBlockButton onClick={this.handlePressRecord}> Record </WhiteBlockButton>
+                    <EncounterMap location={this.state.location}/>
+                    <WhiteBlockButton onClick={this.handlePressRecord}> Record </WhiteBlockButton>
+                </>)
+                :
+                (<>
+                    <WhiteBlockButton onClick={this.handleRequestPermissions}>
+                        Allow Location and Microphone access to record sound in your area
+                    </WhiteBlockButton>
+                </>)
+            }
 
-                   </div>
-                )}
+        </div>;
+    }
 
 
-            {this.state.mode === 'Record' && (
-                <div className={`prose prose-invert flex justify-center`}>
-                    <div className={"flex flex-col"}>
-                        <div onClick={this.handleRecordingStop}>
+    renderRecording() {
+        return <div className={`prose prose-invert flex justify-center`}>
+            <div className={"flex flex-col"}>
+                <div onClick={this.handleRecordingStop}>
                              <span className={`text-xl font-bold p-24`}>
                                  Recording...
                              </span>
-                            <Timer limit={this.recordingLimit} elapsed={this.state.elapsedMS ?? 0} />
-                        </div>
-                    </div>
+                    <Timer limit={this.recordingLimit} elapsed={this.state.elapsedMS ?? 0}/>
                 </div>
-            ) }
+            </div>
+        </div>;
+    }
 
-            {this.state.mode === 'Upload' && (
-                <div className={"flex flex-col justify-center "}>
+    renderRecordingFeedback() {
+        return <div className={"flex flex-col justify-center "}>
                     <span className={"prose text-xl prose-invert"}>
-                         Uploading...
+                        Recording Feedback
+                        <pre>
+                            { JSON.stringify(this.state.recordingFeedback) }
+                        </pre>
                     </span>
-                </div>
-            )}
+            <WhiteBlockButton enabled={!this.state.uploading} onClick={this.handleSubmitRecording}> {this.state.uploading ? 'Uploading...' : 'Send Recording'} </WhiteBlockButton>
 
-            {this.state.mode === 'done' && (
-                <div className={"flex flex-col justify-center "}>
+        </div>;
+    }
+
+    renderSpiritFeedback() {
+        return <div className={"flex flex-col justify-center "}>
                     <span className={"prose text-xl prose-invert"}>
+                                                <pre>
+                            { JSON.stringify(this.state.spiritFeedback) }
+                        </pre>
                          The spirits thank you for your recording.
                     </span>
-                    <WhiteBlockButton onClick={this.handleReset}> More Encounters </WhiteBlockButton>
-                </div>
-            )}
-
-
-
-                </>)
-
+            <WhiteBlockButton onClick={this.handleReset}> More Encounters </WhiteBlockButton>
+        </div>;
     }
+
+
 }
 
