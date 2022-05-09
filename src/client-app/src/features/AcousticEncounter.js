@@ -72,7 +72,8 @@ export class AcousticEncounter extends React.Component {
         if (this.geoWatchID) {
             try {
                 navigator.geolocation.clearWatch(this.geoWatchID)
-            } catch {
+            } catch (e) {
+                console.info('Couldnt clear watch',this.geoWatchID)
             }
         }
 
@@ -87,25 +88,17 @@ export class AcousticEncounter extends React.Component {
             return false
         }
 
-        if (this.userMedia) {
-            try {
-                this.userMedia = null
-            } catch {
-            }
-        }
-
-        let userMedia
+        this.userMedia = null
         try {
             // Obtain audio media device
-            userMedia = await navigator.mediaDevices.getUserMedia({
+            this.userMedia = await navigator.mediaDevices.getUserMedia({
                 audio: {
                     echoCancellation: false,
                     suppressLocalAudioPlayback: true,
                 },
                 video: false,
             })
-            this.userMedia = userMedia
-            console.log("userMedia", userMedia)
+            console.log("userMedia", this.userMedia)
 
         } catch (e) {
             console.warn("UserMedia permissions denied", e)
@@ -113,7 +106,7 @@ export class AcousticEncounter extends React.Component {
         }
 
         // Move to the next app screen state if permissions granted
-        this.setPermissions((geoWatchID !== null && userMedia !== null))
+        this.setPermissions((this.geoWatchID !== null && this.userMedia !== null))
     }
 
     handlePressRecord = () => {
@@ -221,7 +214,7 @@ export class AcousticEncounter extends React.Component {
             uploading: false,
             recording: null,
             elapsedMS: null,
-            timeStarteD: null,
+            timeStarted: null,
             'mode': 'Encounter',
         })
     }
@@ -258,7 +251,7 @@ export class AcousticEncounter extends React.Component {
     renderEncounterMap() {
         return <div className={"flex flex-col justify-center "}>
 
-            {(this.state.permissions) ?
+            {(this.state.permissions && (this.state.location !== null)) ?
                 (<>
                        <span className={"prose text-xl prose-invert"}>
                          Record ecological territories to help the spirit of your place grow.
@@ -299,7 +292,7 @@ export class AcousticEncounter extends React.Component {
                             { JSON.stringify(this.state.recordingFeedback) }
                         </pre>
                     </span>
-            <WhiteBlockButton enabled={!this.state.uploading} onClick={this.handleSubmitRecording}> {this.state.uploading ? 'Uploading...' : 'Send Recording'} </WhiteBlockButton>
+            <WhiteBlockButton disabled={this.state.uploading} onClick={this.handleSubmitRecording}> {this.state.uploading ? 'Uploading...' : 'Send Recording'} </WhiteBlockButton>
 
         </div>;
     }
