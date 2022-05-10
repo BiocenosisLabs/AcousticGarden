@@ -214,6 +214,7 @@ function create(options, { include } = { include: false }) {
       if (error instanceof UniqueConstraintError) {
         next(new APIError(httpStatus.CONFLICT));
       } else {
+        console.log(error)
         next(error);
       }
     }

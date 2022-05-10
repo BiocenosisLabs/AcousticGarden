@@ -10,10 +10,15 @@ export const spiritFields = [
   "description",
   "url",
   "level",
+  "xp",
   "seed",
   "latitude",
   "longitude",
 ];
+
+export const feedbackFields = ["id", "quality", "userId", "recordingId"];
+
+export const userFields = ["id", "username", "email"];
 
 export const UserHasManyRecordings = User.hasMany(Recording, {
   foreignKey: "userId",

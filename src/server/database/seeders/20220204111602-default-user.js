@@ -5,8 +5,8 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         username: "test",
-        password:
-          "$2b$10$zVi.sTF9dZAYFajgBRs7fO08pF7zaPLa8LrbpfoYh0wm2RCQEpmw2",
+        //password:
+        //"$2b$10$zVi.sTF9dZAYFajgBRs7fO08pF7zaPLa8LrbpfoYh0wm2RCQEpmw2",
         email: "test@domain.com",
       },
     ]);

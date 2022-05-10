@@ -1,9 +1,7 @@
 import { DataTypes } from "sequelize";
 
 import db from "../database";
-import { hashPassword, comparePasswords } from "../services/crypto";
-
-const BCRYPT_HASH_LENGTH = 60;
+//import { hashPassword, comparePasswords } from "../services/crypto";
 
 const User = db.define("user", {
   id: {
@@ -12,16 +10,13 @@ const User = db.define("user", {
     primaryKey: true,
     autoIncrement: true,
   },
-  slug: {
-    type: DataTypes.STRING,
-  },
   username: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    validate: {
-      isAlphanumeric: true,
-    },
+    // validate: {
+    //   isAlphanumeric: true,
+    // },
   },
   email: {
     type: DataTypes.TEXT,
@@ -31,23 +26,6 @@ const User = db.define("user", {
       isEmail: true,
     },
   },
-  password: {
-    type: DataTypes.STRING(BCRYPT_HASH_LENGTH),
-    allowNull: false,
-    validate: {
-      len: BCRYPT_HASH_LENGTH,
-    },
-  },
 });
-
-User.addHook("beforeValidate", async (user) => {
-  if (user.password) {
-    user.password = await hashPassword(user.password);
-  }
-});
-
-User.prototype.comparePasswords = async function (password) {
-  return await comparePasswords(password, this.password);
-};
 
 export default User;
