@@ -29,6 +29,10 @@ const Spirit = db.define("spirit", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  xp: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   seed: {
     type: DataTypes.STRING,
     allowNull: true,

@@ -10,6 +10,7 @@ export const spiritFields = [
   "description",
   "url",
   "level",
+  "xp",
   "seed",
   "latitude",
   "longitude",
