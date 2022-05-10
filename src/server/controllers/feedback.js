@@ -3,7 +3,11 @@ import httpStatus from "http-status";
 import Feedback from "../models/feedback";
 import baseController from "../controllers";
 import { feedbackFields } from "../database/associations";
-import { filterResponseAll, respondWithSuccess } from "../helpers/respond";
+import {
+  filterResponse,
+  respondWithSuccess,
+  respondWithError,
+} from "../helpers/respond";
 
 const options = {
   model: Feedback,
@@ -13,10 +17,23 @@ const options = {
 
 async function search(req, res, next) {
   try {
-    const response = {};
+    if (!req.query && !req.query.recording) {
+      throw new Error();
+    }
+    const response = await Feedback.findOne({
+      where: { recordingId: req.query.recording, userId: req.query.user },
+    });
+    console.log(response);
+    if (!response) {
+      return respondWithError(
+        res,
+        { message: "Not Found" },
+        httpStatus.NOT_FOUND
+      );
+    }
     respondWithSuccess(
       res,
-      filterResponseAll(response, [...feedbackFields]),
+      filterResponse(response, [...feedbackFields]),
       httpStatus.SUCCESS
     );
   } catch (error) {
