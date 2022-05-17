@@ -36,7 +36,7 @@ processor(getFeedback).process(async ({ data }) => {
       .catch((err) => console.log(err));
 
     const feedback = { ...data, species: response.data.results };
-    feedback.quality = Math.floor(Math.random() * 10) + 1;
+    feedback.quality = 1 + response.data.results.length;
     await Feedback.create(feedback);
     const spirit = await Spirit.findByPk(feedback.spiritId);
     let level = spirit.level;
