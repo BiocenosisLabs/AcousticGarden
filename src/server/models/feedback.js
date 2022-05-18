@@ -25,6 +25,9 @@ const Feedback = db.define("feedback", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  species: {
+    type: DataTypes.JSONB,
+  },
 });
 
 export default Feedback;
