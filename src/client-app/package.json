@@ -25,7 +25,6 @@
     "styled-components": "^5.3.5",
     "three": "^0.140.0",
     "three-custom-shader-material": "^3.3.5",
-    "three-voxel-loader": "turtlesoupy/three-voxel-loader",
     "timers-browserify": "^2.0.12",
     "uuid": "^8.3.2",
     "voxelizer": "^1.0.0",
