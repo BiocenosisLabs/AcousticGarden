@@ -5,22 +5,22 @@ export function generateKey() {
     return uuid();
 }
 
-export async function uploadRecording({user, location, recording}) {
+export async function uploadRecording({userId, latitude,longitude, recording}) {
 
     const formData = new FormData();
 
-    formData.append('user', user,);
-    formData.append('latitude', location[0]);
-    formData.append('longitude', location[1]);
+    formData.append('user', userId);
+    formData.append('latitude', latitude);
+    formData.append('longitude', longitude);
     formData.append('file', recording, 'blob.webm');
 
-    let feedback = {
-        spirit: {
-            name: 'Henry',
-            exp: 12304,
-            lvl: 999,
-        }
-    }
+    // let feedback = {
+    //     spirit: {
+    //         name: 'Henry',
+    //         exp: 12304,
+    //         lvl: 999,
+    //     }
+    // }
 
 
     // POST /api/uploads/recordings
@@ -30,14 +30,14 @@ export async function uploadRecording({user, location, recording}) {
             body: formData
         }
     )
-        .then(response => feedback = response.json())
+        .then(response => response.json())
         .then(result => {
             console.log('Success:', result);
         })
         .catch(async error => {
             console.error('Error:', error);
-            await new Promise(resolve => setTimeout(resolve, 2000))
+            // await new Promise(resolve => setTimeout(resolve, 2000))
         });
 
-    return feedback
+    return ret
 }
