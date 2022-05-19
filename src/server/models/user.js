@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 
 import db from "../database";
-//import { hashPassword, comparePasswords } from "../services/crypto";
 
 const User = db.define("user", {
   id: {
@@ -14,17 +13,6 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    // validate: {
-    //   isAlphanumeric: true,
-    // },
-  },
-  email: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
-    },
   },
 });
 

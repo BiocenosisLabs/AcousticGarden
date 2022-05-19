@@ -48,6 +48,7 @@ async function uploadDocuments(req, res, next) {
         userId: parseInt(req.body.user),
         spiritId: id,
         recordingId: res.dataValues.id,
+        filename: res.dataValues.fileName,
       });
     });
 

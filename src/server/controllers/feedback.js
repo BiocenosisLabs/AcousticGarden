@@ -23,7 +23,7 @@ async function search(req, res, next) {
     const response = await Feedback.findOne({
       where: { recordingId: req.query.recording, userId: req.query.user },
     });
-    console.log(response);
+
     if (!response) {
       return respondWithError(
         res,
