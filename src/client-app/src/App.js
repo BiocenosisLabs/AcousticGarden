@@ -21,7 +21,7 @@ import {getFeedback, uploadRecording} from "./features/api";
 
 const AuthFirst = ({children}) => {
     const isAuthed = useStore((state) => state.isAuthed)()
-    return isAuthed ? children : <Navigate to="/auth" replace/>;
+    return isAuthed ? children : <Navigate to="/home" replace/>;
 };
 
 function App() {

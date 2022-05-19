@@ -55,6 +55,7 @@ export const Background = styled('div')`
   flex-direction: column;
   flex: 1;
   align-content: center;
+  margin: auto auto;
 `
 
 export const ScreenContainer = styled('div')`
@@ -77,7 +78,7 @@ export const Back = () => {
 
     const navigate = useNavigate()
     return  <div>
-        <Backward className={"fill-purple-800"} width={"2em"} height={"2em"} onClick={() => navigate(-1)}/>
+        <Backward className={"fill-purple-800"} width={"2em"} height={"2em"} onClick={() => navigate('/')}/>
     </div>
 }
 
