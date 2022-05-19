@@ -87,18 +87,17 @@ export function HomeScreen({onClickInfo, onClickPlay, onClickBrowse,onClickMyDat
                 </form>
             </div>)}
 
-
-
-            <ButtonPrimary disabled onClick={onClickInfo}>
-                Info
-            </ButtonPrimary>
-
-            <ButtonPrimary disabled onClick={onClickBrowse}>
+            <ButtonPrimary onClick={onClickBrowse}>
                 Browse
             </ButtonPrimary>
-            <ButtonPrimary disabled onClick={onClickMyData}>
-                My Data
-            </ButtonPrimary>
+
+            {/*<ButtonPrimary disabled onClick={onClickInfo}>*/}
+            {/*    Info*/}
+            {/*</ButtonPrimary>*/}
+
+            {/*<ButtonPrimary disabled onClick={onClickMyData}>*/}
+            {/*    My Data*/}
+            {/*</ButtonPrimary>*/}
         </CenterBox>
 
 
