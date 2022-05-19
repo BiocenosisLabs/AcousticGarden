@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 
 // Configure CORS
 const dev = new URL("http://localhost:3000");
-const prod = new URL("https://geniusloci.app");
+const prod = new URL("https://acoustic.land");
 
 app.use(
   cors({
