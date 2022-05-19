@@ -1,12 +1,13 @@
 import { Joi, Segments } from "celebrate";
 
 const defaultValidation = {
-  username: Joi.string().required(),
+  user: Joi.number(),
+  spirit: Joi.number(),
 };
 
 export default {
-  create: {
-    [Segments.BODY]: {
+  search: {
+    [Segments.QUERY]: {
       ...defaultValidation,
     },
   },

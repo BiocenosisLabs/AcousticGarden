@@ -16,6 +16,17 @@ export const spiritFields = [
   "longitude",
 ];
 
+export const recordingFields = [
+  "id",
+  "fileType",
+  "fileName",
+  "url",
+  "userId",
+  "spiritId",
+  "latitude",
+  "longitude",
+];
+
 export const feedbackFields = [
   "id",
   "quality",
