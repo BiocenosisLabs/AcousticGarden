@@ -1,7 +1,7 @@
 import { Joi, Segments } from "celebrate";
 
 const defaultValidation = {
-  email: Joi.string().email().required(),
+  username: Joi.string().required(),
 };
 
 export default {
