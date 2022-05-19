@@ -10,7 +10,7 @@ export default function BioAvatar({ ...props }) {
   const { nodes, materials } = useGLTF('/bioavatar.glb')
   return (
     <group ref={group} {...props} dispose={null}>
-      <mesh geometry={nodes.bird001.geometry} material={materials['uv.metallic.anim.matt']} position={[-0.25, 0, -0.01]} rotation={[-Math.PI, 1.21, -Math.PI]} scale={0.41} />
+      <mesh geometry={nodes.bird001.geometry} material={materials['uv.metallic.anim.matt']} position={[-0.25, 0, -0.01]} rotation={[-Math.PI, 1.21, -Math.PI]} scale={0.11} />
     </group>
   )
 }

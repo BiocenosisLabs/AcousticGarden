@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -28,3 +30,64 @@ body {
 canvas {
     height: 100vh;
 }
+
+.page {
+
+
+}
+
+.Background {
+    background: linear-gradient(180deg, rgba(39, 0, 63, 1) 0%, rgba(30, 0, 22, 1) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.ScreenContainer {
+    max-width: 700px;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+
+.rhap_container {
+    background-color: transparent !important;
+}
+
+.rhap_main {
+    color: #efefef !important;
+
+}
+.rhap_current-time {
+    color: #efefef !important;
+}
+.rhap_total-time {
+    color: #efefef !important;
+}
+
+.rhap_progress-indicator {
+background-color: hsl(180deg 20% 50%) !important;
+}
+
+
+.rhap_progress-filled {
+background-color: hsl(180deg 40% 52%) !important;
+}
+
+
+.rhap_download-progress {
+background-color: hsl(180deg 57% 57%) !important;
+}
+
+.rrhap_play-pause-button {
+color: hsl(180deg 57% 57%) !important;
+background-color: hsl(180deg 57% 57%) !important;
+fill: hsl(180deg 57% 57%) !important;
+}
+
+

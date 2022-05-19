@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Start from './Start';
 import './global.css';
-
-ReactDOM.render(
-  <React.StrictMode>
-    <Start />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import { createRoot } from 'react-dom/client';
+import App from "./App";
+import {HashRouter as Router} from "react-router-dom";
+const container = document.getElementById('root');
+const root = createRoot(container); // createRoot(container!) if you use TypeScript
+root.render( <Router>
+    <App/>
+</Router>)
 
