@@ -36,8 +36,8 @@ var delta = 0;
 const compute_sizing = () => {
     // compute  size of the canvas:
     const height = window.innerHeight
-    const wWidth = window.innerWidth
-    const width = Math.min(wWidth, height)
+    const width = window.innerWidth
+    // const width = Math.min(wWidth, height)
 
     // compute position of the canvas:
     const top = 0

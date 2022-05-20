@@ -107,12 +107,13 @@ let voxelMesh = null
 
 export default function Bird({vl,refa,...props}) {
     const group = useRef()
-    const {nodes, materials} = useGLTF('/bird-without-base.glb')
+    const {nodes, materials} = useGLTF('/untitled.glb')
 
     const materialRef = useRef(null)
     const rand = useMemo(() => Math.random(), [])
     const strength = useRef(0)
 
+    console.log({nodes,materials})
 
 
     useFrame(({ clock }, dt) => {
@@ -193,9 +194,9 @@ export default function Bird({vl,refa,...props}) {
 
                     <mesh
                         ref={refa}
-                        geometry={nodes.bird001.geometry}
+                        geometry={nodes.Goldfish_STTP2QE.geometry}
                         // geometry={voxelMesh}
-                        material={materials['uv.gltb.export']}
+                        material={materials['GoldFish_Mat']}
                         position={[0.05, -0.7, -0.00]}
                         rotation={[-Math.PI, 1.21, -Math.PI]}
                         scale={0.40}
@@ -214,4 +215,4 @@ export default function Bird({vl,refa,...props}) {
     )
 }
 
-useGLTF.preload('/bird.glb')
+useGLTF.preload('/untitled.glb')
