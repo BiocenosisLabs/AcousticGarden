@@ -1,6 +1,7 @@
 import httpStatus from "http-status";
 
 import Feedback from "../models/feedback";
+import Spirit from "../models/spirit";
 import baseController from "../controllers";
 import { feedbackFields } from "../database/associations";
 import {
@@ -11,7 +12,7 @@ import {
 
 const options = {
   model: Feedback,
-  fields: [...feedbackFields],
+  fields: [...feedbackFields, "spirit"],
   fieldsProtected: [""],
 };
 
@@ -22,6 +23,7 @@ async function search(req, res, next) {
     }
     const response = await Feedback.findOne({
       where: { recordingId: req.query.recording, userId: req.query.user },
+      include: { model: Spirit, as: "spirit" },
     });
 
     if (!response) {
@@ -33,7 +35,7 @@ async function search(req, res, next) {
     }
     respondWithSuccess(
       res,
-      filterResponse(response, [...feedbackFields]),
+      filterResponse(response, [...feedbackFields, "spirit"]),
       httpStatus.SUCCESS
     );
   } catch (error) {

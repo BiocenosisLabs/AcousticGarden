@@ -1,6 +1,7 @@
 import User from "../models/user";
 import Recording from "../models/recording";
 import Spirit from "../models/spirit";
+import Feedback from "../models/feedback";
 
 export const baseFileFields = ["fileName", "fileType", "url"];
 
@@ -55,6 +56,13 @@ export const SpiritHasManyRecordings = Spirit.hasMany(Recording, {
 });
 
 export const RecordingBelongsToSpirit = Recording.belongsTo(Spirit, {
+  allowNull: true,
+  onDelete: "SET NULL",
+  onUpdate: "CASCADE",
+  as: "spirit",
+});
+
+export const FeedbackBelongsToSpirit = Feedback.belongsTo(Spirit, {
   allowNull: true,
   onDelete: "SET NULL",
   onUpdate: "CASCADE",

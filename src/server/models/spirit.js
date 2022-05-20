@@ -17,6 +17,10 @@ const Spirit = db.define("spirit", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  type: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   url: {
     type: DataTypes.STRING,
     allowNull: false,
