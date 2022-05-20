@@ -17,11 +17,12 @@ import SpiritAR from "./features/3d/SpiritAR";
 import {HomeScreen} from "./screens/HomeScreen";
 import {AuthScreen} from "./screens/AuthScreen";
 import {getFeedback, uploadRecording} from "./features/api";
+import BrowseAreaScreen from "./screens/BrowseAreaScreen";
 
 
 const AuthFirst = ({children}) => {
     const isAuthed = useStore((state) => state.isAuthed)()
-    return isAuthed ? children : <Navigate to="/auth" replace/>;
+    return isAuthed ? children : <Navigate to="/auth"/>;
 };
 
 function App() {
@@ -200,6 +201,12 @@ function App() {
             <Route
                 path={"/snapshot"}
                 element={<SpiritAR
+                />}
+            />
+
+            <Route
+                path={"/browse"}
+                element={<BrowseAreaScreen
                 />}
             />
 

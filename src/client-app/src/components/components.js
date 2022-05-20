@@ -12,7 +12,10 @@ export const Center = styled('div')`
   display: flex;
   justify-content: center;
   width: 100%;
+  fill: #3FB667;
 `
+
+
 export const MainTitleContainer = Center
 
 export const BackgroundBubble = styled('div')`
@@ -44,17 +47,18 @@ export const LinePrimary = styled('div')`
 
 export const Background = styled('div')`
   background: linear-gradient(180deg, rgba(39, 0, 63, 1) 0%, rgba(30, 0, 22, 1) 100%);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: -1;
-  max-width: 800px;
+  //max-width: 800px;
   display: flex;
   flex-direction: column;
   flex: 1;
   align-content: center;
+  margin: auto auto;
 `
 
 export const ScreenContainer = styled('div')`
@@ -77,7 +81,7 @@ export const Back = () => {
 
     const navigate = useNavigate()
     return  <div>
-        <Backward className={"fill-purple-800"} width={"2em"} height={"2em"} onClick={() => navigate(-1)}/>
+        <Backward className={"fill-purple-800"} width={"2em"} height={"2em"} onClick={() => navigate('/')}/>
     </div>
 }
 

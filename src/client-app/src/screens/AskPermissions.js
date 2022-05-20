@@ -26,7 +26,7 @@ export const AskPermissions = () => {
 
     <ContainerBottom>
         <ButtonPrimary onClick={handleAskPermission}>
-            Play
+            Continue
         </ButtonPrimary>
     </ContainerBottom>
 

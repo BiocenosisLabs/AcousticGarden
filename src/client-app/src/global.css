@@ -9,6 +9,8 @@
 body {
     background-color: black;
     /*color: bisque;*/
+    /*background: linear-gradient(180deg, rgba(39, 0, 63, 1) 0%, rgba(30, 0, 22, 1) 100%);*/
+    
 }
 
 .fade {
@@ -36,15 +38,6 @@ canvas {
 
 }
 
-.Background {
-    background: linear-gradient(180deg, rgba(39, 0, 63, 1) 0%, rgba(30, 0, 22, 1) 100%);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-}
 
 .ScreenContainer {
     max-width: 700px;
