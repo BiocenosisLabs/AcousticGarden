@@ -22,7 +22,7 @@ import BrowseAreaScreen from "./screens/BrowseAreaScreen";
 
 const AuthFirst = ({children}) => {
     const isAuthed = useStore((state) => state.isAuthed)()
-    return isAuthed ? children : <Navigate to="/home" replace/>;
+    return isAuthed ? children : <Navigate to="/auth"/>;
 };
 
 function App() {

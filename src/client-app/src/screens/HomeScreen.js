@@ -31,21 +31,24 @@ export function HomeScreen({onClickInfo, onClickPlay, onClickBrowse,onClickMyDat
         }))
     }
 
-    const handleLogin = async () => {
-        // It's a demo
-        const user = await authUser({username: state.username})
-        console.log({user})
-        setAuthed({username: state.username, userID: user.id})
-        onClickPlay()
-    }
+    // const handleLogin = async () => {
+    //     // It's a demo
+    //     const user = await authUser({username: state.username})
+    //     console.log({user})
+    //     setAuthed({username: state.username, userID: user.id})
+    //     onClickPlay()
+    // }
 
 
     const handleClickPlay = () => {
-        if (isAuthed) {
-            onClickPlay()
-        } else {
-            setShowAuth(true)
-        }
+
+        onClickPlay()
+
+        // if (isAuthed) {
+        //     onClickPlay()
+        // } else {
+        //     setShowAuth(true)
+        // }
     }
 
 
@@ -70,22 +73,22 @@ export function HomeScreen({onClickInfo, onClickPlay, onClickBrowse,onClickMyDat
             </ButtonPrimary>)}
 
 
-            {showAuth && (<div className={"mb-6 flex flex-row justify-center"}>
-                <form className="m-4 flex">
-                    <input
-                        className="w-72 rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
-                        placeholder="Us3rN4me"
-                        value={state.username}
-                        onChange={handleChange}
-                        id={"username"}
-                    />
-                    <button
-                        onClick={handleLogin}
-                        className="px-8 rounded-r-lg bg-purple-800 text-gray-200 font-bold p-4 uppercase border-purple-700 border-t border-b border-r">
-                        Enter
-                    </button>
-                </form>
-            </div>)}
+            {/*{showAuth && (<div className={"mb-6 flex flex-row justify-center"}>*/}
+            {/*    <form className="m-4 flex" >*/}
+            {/*        <input*/}
+            {/*            className="w-72 rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"*/}
+            {/*            placeholder="Us3rN4me"*/}
+            {/*            value={state.username}*/}
+            {/*            onChange={handleChange}*/}
+            {/*            id={"username"}*/}
+            {/*        />*/}
+            {/*        <button*/}
+            {/*            onClick={handleLogin}*/}
+            {/*            className="px-8 rounded-r-lg bg-purple-800 text-gray-200 font-bold p-4 uppercase border-purple-700 border-t border-b border-r">*/}
+            {/*            Enter*/}
+            {/*        </button>*/}
+            {/*    </form>*/}
+            {/*</div>)}*/}
 
             <ButtonPrimary onClick={onClickBrowse}>
                 Browse

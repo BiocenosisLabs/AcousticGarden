@@ -32,7 +32,7 @@ export const EncounterMapScreen = ({onRecordPress}) => {
             <>
                 <EncounterMap location={locationLatLng}/>
                 {/*-translate-y-1/3*/}
-                <div className={"m-10 "}>
+                <div className={"ml-10 mr-10"}>
                     <FrostedCard className={"prose text-xl prose-invert"}>
                         Navigate to an area of ecological activity and record sound </FrostedCard>
                 </div>
