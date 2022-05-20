@@ -13,6 +13,8 @@ export const Center = styled('div')`
   justify-content: center;
   width: 100%;
   fill: #3FB667;
+  margin: auto auto;
+  flex: 1;
 `
 
 
@@ -75,14 +77,15 @@ export const BackgroundContainer = ({children}) => <>({children})</>
 
 export const HeaderNav = styled('div')`
   padding: 20px;
+  padding-top:10px;
   display: flex;
-  color:white;
+  fill: #3FB667;
 `
 export const Back = () => {
 
     const navigate = useNavigate()
-    return  <div>
-        <Backward className={"fill-purple-800"} width={"2em"} height={"2em"} onClick={() => navigate('/')}/>
+    return  <div className={"mr-2"}>
+        <Backward style={{fill: "#3FB667", rightMargin:"2em"}} width={"2em"} height={"2em"} onClick={() => navigate('/')}/>
     </div>
 }
 

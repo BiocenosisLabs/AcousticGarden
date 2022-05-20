@@ -16,7 +16,15 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import Bird from "../features/3d/Bird";
 import {useStore} from "../store";
-import {ButtonPrimary, FrostedCard, HeaderNav, HeaderTitle, RecordButton} from "../components/components";
+import {
+    Back,
+    ButtonPrimary,
+    FrostedCard,
+    HeaderNav,
+    HeaderTitle,
+    MainTitle,
+    RecordButton
+} from "../components/components";
 import styled from "styled-components";
 import {KernelSize, Resolution as Resizer} from "postprocessing";
 import Lizzie from "../features/3d/Lizzie";
@@ -34,7 +42,7 @@ const compute_sizing = () => {
     // const width = Math.min(wWidth, height)
 
     // compute position of the canvas:
-    const top = 80
+    const top = window.innerHeight * 0.10
     const left = (wWidth-width) / 2
     return {width, height, top, left, borderRadius: '15px',}
 }
@@ -135,7 +143,8 @@ export default function FeedbackScreen({onSnap}) {
     return (
         <>
             <HeaderNav>
-                <HeaderTitle/>
+                <Back />
+                <MainTitle className={"m-auto"}/>
             </HeaderNav>
             <CanvasContainers>
                 {/* Canvas managed by three fiber, for AR: */}

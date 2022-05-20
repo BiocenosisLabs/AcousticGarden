@@ -105,7 +105,7 @@ function App() {
         onClickBrowse: () => navigate('/browse'),
         onClickInfo: () => navigate('/info'),
         onClickMyData: () => navigate('/mydata'),
-        onClickPlay: () => navigate('/play'),
+        onClickPlay: () => navigate('/encounter'),
     }
 
 
@@ -142,6 +142,10 @@ function App() {
                 path={"/"}
                 element={<HomeScreen {...homeActions} />}
             />
+            <Route
+                path={"/play"}
+                element={<HomeScreen {...homeActions} />}
+            />
 
             {/*<Route*/}
             {/*    path={"/browse"}*/}
@@ -150,8 +154,18 @@ function App() {
                 {/*    />}*/}
             {/*/>*/}
 
+
             <Route
-                path={"/play"}
+                path={"/auth"}
+                element={
+                        <AuthScreen
+                            onAuth={() => navigate('/encounter')}
+                        />
+                }
+            />
+
+            <Route
+                path={"/encounter"}
                 element={
                     <AuthFirst>
                         <EncounterMapScreen
@@ -160,15 +174,7 @@ function App() {
                     </AuthFirst>
                 }
             />
-            <Route
-                path={"/auth"}
-                element={
-                        <AuthScreen
-                            onAuth={() => navigate('/play')}
-                        />
-                }
-            />
-
+            
             <Route
                 path={"/recording"}
                 element={
