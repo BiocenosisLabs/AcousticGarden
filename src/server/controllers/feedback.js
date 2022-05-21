@@ -22,7 +22,7 @@ async function search(req, res, next) {
       throw new Error();
     }
     const response = await Feedback.findOne({
-      where: { recordingId: req.query.recording, userId: req.query.user },
+      where: { recordingId: req.query.recording },
       include: { model: Spirit, as: "spirit" },
     });
 
