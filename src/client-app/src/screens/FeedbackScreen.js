@@ -82,6 +82,16 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
 
 
         console.log({feedback})
+
+        try {
+            if (feedback && feedback.spirit && feedback.spirit.level) {
+                setPixelation(Math.max(0, 30 - feedback.spirit.level))
+            }
+        }
+        catch (e) {
+            console.log(e)
+            setPixelation(10)
+        }
         // get feedback and set pixelation
 
         if (map.current) {
