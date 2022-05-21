@@ -8,11 +8,11 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiaGVsbG9rb3ptbyIsImEiOiJjbDJyaTRxeWQwNDI2M2Nuc
 
 export const MapContainer = styled('div')`
   border-radius: 200px;
-  height: 260px;
-  width: 260px;
+  height: 25vh;
+  width: 25vh;
   margin: auto;
-  margin-top: 60px;
-  margin-bottom: 60px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 `
 
 export function EncounterMap({location}) {
