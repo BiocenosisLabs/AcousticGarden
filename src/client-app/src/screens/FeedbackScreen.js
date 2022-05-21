@@ -147,15 +147,27 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
         }
     }
 
-    const traits = Object.keys(feedback ?? {}).map(key => {
+    // const traits = Object.keys(feedback ?? {}).map(key => {
+    //
+    //     return <div>
+    //         <span> {key} :</span>:
+    //         <span> {JSON.stringify(feedback[key])} </span>
+    //     </div>
+    // })
 
-        return <div>
-            <span> {key} :</span>:
-            <span> {JSON.stringify(traits[key])} </span>
-        </div>
-    })
+    // console.log({traits})
 
-    console.log({traits})
+    const FeedbackDivs = () => (feedback !== null && feedback.spirit !== null) ? <div>
+        <div> Spirit Type: {feedback.spirit.type}} </div>
+        <div> Spirit Name: {feedback.spirit.name} </div>
+        <div> Spirit Level: {feedback.spirit.level} </div>
+        <div> Spirit Description: {feedback.spirit.description} </div>
+
+        {/*{{ traits ??  }}*/}
+        <span>
+         {JSON.stringify(feedback?.species)}
+       </span>
+    </div> : <></>
 
 
     return (
@@ -253,7 +265,7 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
                                 You Contributed + 5 EXP
                             </div>
 
-                            {/*{{ traits ??  }}*/}
+                            <FeedbackDivs />
 
                         </div>
                     </div>
