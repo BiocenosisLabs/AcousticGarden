@@ -156,16 +156,17 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
     // })
 
     // console.log({traits})
+    //Species: {JSON.stringify(feedback?.species ?? {})}
 
     const FeedbackDivs = () => (feedback !== null && feedback.spirit !== null) ? <div>
-        <div> Spirit Type: {feedback.spirit.type}} </div>
+        <div> Spirit Type: {feedback.spirit.type} </div>
         <div> Spirit Name: {feedback.spirit.name} </div>
         <div> Spirit Level: {feedback.spirit.level} </div>
         <div> Spirit Description: {feedback.spirit.description} </div>
 
         {/*{{ traits ??  }}*/}
         <span>
-         Species: {JSON.stringify(feedback?.species ?? {})}
+         Species: { feedback?.species.map(specie => { return `${specie[0]}, `}) }
        </span>
     </div> : <></>
 
