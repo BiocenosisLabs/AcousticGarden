@@ -1,5 +1,5 @@
 import {useStore} from "../store";
-import {ButtonPrimary, CenterBox, ContainerBottom, PageContainer, RoundedCard} from "../components/components";
+import {ButtonPrimary, CenterBox, ContainerBottom, PageContainer, PermissionsRoundedCard} from "../components/components";
 
 export const AskPermissions = () => {
 
@@ -10,15 +10,13 @@ export const AskPermissions = () => {
         <PageContainer className={"h-full flex"}>
         <div  >
             <CenterBox>
-                <RoundedCard>
+                <PermissionsRoundedCard>
                 <span
                     className={"prose prose-invert prose-lg"}
                 >
-                   Acoustic gardens is a participatory acoustic sensing app that encourages engagement with wild spaces.
-
-                    Your microphone and location permissions will be required for sensing your ecological community.
+                    In order to participate in ecological sensing, we will need to request your microphone and location permissions.
                 </span>
-                </RoundedCard>
+                </PermissionsRoundedCard>
             </CenterBox>
         </div>
     </PageContainer>

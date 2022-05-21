@@ -2,7 +2,7 @@ import {
     BackgroundContainer,
     ButtonPrimary,
     ContainerBottom,
-    FrostedCard,
+    HomePageFrostedCard,
     HeaderNav, MainTitle,
     PageContainer
 } from "../components/components";
@@ -59,13 +59,13 @@ export function HomeScreen({onClickInfo, onClickPlay, onClickBrowse,onClickMyDat
         </HeaderNav>
         <PageContainer className={"h-full flex"}>
 
-                <FrostedCard className={"prose text-xl prose-invert"}>
+                <HomePageFrostedCard className={"prose text-xl prose-invert"}>
                 <span
                     className={"prose prose-invert prose-lg"}
                 >
                    Acoustic gardens is a participatory acoustic sensing app that encourages engagement with wild spaces. Players can record audio snippets from around their ecological community. These uploads contribute to a collective digital avatar: a genius loci representing the spirit of a place.
                 </span>
-            </FrostedCard>
+            </HomePageFrostedCard>
         <CenterBox>
 
             {!showAuth && ( <ButtonPrimary onClick={handleClickPlay} className={"mb-6"}>
