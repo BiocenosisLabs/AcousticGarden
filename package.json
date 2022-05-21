@@ -9,7 +9,7 @@
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "db:new-migration": "./node_modules/.bin/sequelize-cli migration:generate --name",
-    "server:build": "babel ./src/server --out-dir ./build/server",
+    "server:build": "babel ./src/server --copy-files --out-dir ./build/server",
     "server:start": "cross-env NODE_ENV=production node ./build/server/index.js",
     "server:watch": "nodemon --watch ./src/server --exec cross-env NODE_ENV=development babel-node ./src/server/index.js --source-maps inline",
     "backend:start": "concurrently --prefix '{pid}-{name}' --names 'API,WORKERS' --kill-others 'npm run server:start' 'npm run worker:start'",
