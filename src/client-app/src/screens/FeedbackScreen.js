@@ -165,7 +165,7 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
 
         {/*{{ traits ??  }}*/}
         <span>
-         {JSON.stringify(feedback?.species)}
+         Species: {JSON.stringify(feedback?.species ?? {})}
        </span>
     </div> : <></>
 
