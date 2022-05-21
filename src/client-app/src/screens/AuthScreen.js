@@ -30,8 +30,15 @@ export function AuthScreen({onAuth}) {
 
     const handleLogin = async () => {
         // It's a demo
-        const user = await authUser({username: state.username})
-        console.log({user})
+        let user
+        try {
+            user = await authUser({username: state.username})
+            console.log({user})
+        } catch (e) {
+            console.log("Error setting use so using test uer")
+            user = {username: 'Test User', userID: 1}
+        }
+
         setAuthed({username: state.username, userID: user.id})
         onAuth()
     }

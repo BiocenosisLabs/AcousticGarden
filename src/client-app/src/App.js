@@ -21,7 +21,8 @@ import BrowseAreaScreen from "./screens/BrowseAreaScreen";
 
 
 const AuthFirst = ({children}) => {
-    const isAuthed = useStore((state) => state.isAuthed)()
+    // const isAuthed = useStore((state) => state.isAuthed)()
+    const isAuthed = true //It's a demo
     return isAuthed ? children : <Navigate to="/auth"/>;
 };
 
@@ -174,7 +175,7 @@ function App() {
                     </AuthFirst>
                 }
             />
-            
+
             <Route
                 path={"/recording"}
                 element={
@@ -201,6 +202,7 @@ function App() {
                 path={"/feedback"}
                 element={<FeedbackScreen
                     onSnap={() => navigate('/snapshot')}
+                    onBrowse={() => navigate('/browse')}
                 />}
             />
 
