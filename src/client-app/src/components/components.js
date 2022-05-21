@@ -153,6 +153,16 @@ export const RoundedCard = styled('div')`
   width: 100%;
 `
 
+export const PermissionsRoundedCard = styled('div')`
+
+  background: rgba(63, 182, 103, 0.68);
+  box-shadow: 0px 20px 40px rgba(238, 60, 137, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 44px;
+
+  padding: 30px;
+  width: 100%;
+`
 
 export const GradientButtonLong = styled('button')`
   margin-top:20px;

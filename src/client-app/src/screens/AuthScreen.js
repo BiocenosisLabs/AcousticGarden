@@ -52,8 +52,9 @@ export function AuthScreen({onAuth}) {
             <div  >
         <CenterBox>
             <div>
-                <div className="m-4 flex">
+                <div className="m-4 flex" style={{maxWidth: "90vw"}}>
                     <input
+                        style={{maxWidth: "60vw"}}
                         className="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
                         placeholder="Us3rN4me"
                         value={state.username}
@@ -62,6 +63,7 @@ export function AuthScreen({onAuth}) {
                     />
                     <div
                         onClick={handleLogin}
+                        style={{maxWidth: "30vw"}}
                         className="px-8 rounded-r-lg bg-purple-800 text-gray-200 font-bold p-4 uppercase border-purple-700 border-t border-b border-r">
                         Enter
                     </div>
