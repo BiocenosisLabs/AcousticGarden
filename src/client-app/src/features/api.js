@@ -53,7 +53,11 @@ export async function uploadRecording({userId, latitude, longitude, recording}) 
 
     const formData = new FormData();
 
-    formData.append('user', userId ?? 1);
+    if (userId === null) {
+        userId = 1
+    }
+
+    formData.append('user', userId);
     formData.append('latitude', latitude);
     formData.append('longitude', longitude);
     formData.append('file', recording, 'blob.webm');
