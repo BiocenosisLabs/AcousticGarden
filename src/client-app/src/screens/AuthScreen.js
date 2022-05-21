@@ -39,7 +39,7 @@ export function AuthScreen({onAuth}) {
             user = {username: 'Test User', userID: 1}
         }
 
-        setAuthed({username: state.username, userID: user.id})
+        setAuthed({username: state?.username ?? user.username, userID: user.id})
         onAuth()
     }
 
