@@ -269,11 +269,11 @@ export default function BrowseAreaScreen({onSnap}) {
                             tb.add(soldier);
                         })
 
-                        tb.loadObj({...options, obj: '/goldie-swirl-small.glb'}, function (model) {
+                        tb.loadObj({...options, obj: '/goldie-swirl-small.glb', scale:20}, function (model) {
                             let soldier1 = model.setCoords([modelOrigin[0]-0.02,modelOrigin[1]-0.02]);
                             tb.add(soldier1);
                         })
-                        tb.loadObj({...options, obj: '/frogie-swirl-small.glb'}, function (model) {
+                        tb.loadObj({...options, obj: '/frogie-swirl-small.glb',scale:20}, function (model) {
                             model3 = model.setCoords([modelOrigin[0]+0.02,modelOrigin[1]+0.02]);
                             tb.add(model3);
                         })
