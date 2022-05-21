@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import Bird from "./Bird";
 import {Sparkles} from "@react-three/drei";
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette ,Pixelation} from '@react-three/postprocessing'
 
@@ -12,6 +11,7 @@ import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter'
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from './threehelper.js'
 import {ButtonPrimary} from "../../components/components";
+import Lizzie from "./Lizzie";
 // import HenryLsd from "./HenryLsd";
 // import Fish from "./Fish";
 
@@ -20,7 +20,6 @@ const Fab = ({children}) => <div className={"fixed left-1/2 bottom-4 transform -
 const _maxFacesDetected = 1 // max number of detected faces
 const _faceFollowers = new Array(_maxFacesDetected)
 let _expressions = null
-
 
 
 
@@ -69,9 +68,8 @@ const FaceFollower = (props) => {
             {/*</mesh>*/}
 
                          <Suspense fallback={null}>
-                             <Sparkles position={[0, 0, 0]} scale={1.0}/>
-                             <Bird position={[0, 0, 0]}/>
-
+                             <Sparkles position={[0, 0, 0]} scale={2.0}/>
+                             <Lizzie position={[0, 0, 0]} scale={0.5}/>
                          </Suspense>
         </object3D>
     )
@@ -83,7 +81,7 @@ const FaceFollower = (props) => {
 let _threeFiber = null
 const ThreeGrabber = (props) => {
     _threeFiber = useThree()
-    // useFrame(JeelizThreeFiberHelper.update_camera.bind(null, props.sizing, _threeFiber.camera))
+    useFrame(JeelizThreeFiberHelper.update_camera.bind(null, props.sizing, _threeFiber.camera))
     return null
 }
 
@@ -135,7 +133,7 @@ const SpiritAR = () => {
 
     useEffect(() => {
         if (!_timerResize) {
-            // JEELIZFACEFILTER.resize()
+            JEELIZFACEFILTER.resize()
         }
     }, [sizing])
 
@@ -148,30 +146,30 @@ const SpiritAR = () => {
 
         // console.log('INFO: JEELIZFACEFILTER IS READY')
         // there is only 1 face to track, so 1 face follower:
-        // JeelizThreeFiberHelper.init(spec, _faceFollowers, callbackDetect)
+        JeelizThreeFiberHelper.init(spec, _faceFollowers, callbackDetect)
     }
 
 
-    // const callbackTrack = (detectStatesArg) => {
-    //     // if 1 face detection, wrap in an array:
-    //     const detectStates = (detectStatesArg.length) ? detectStatesArg : [detectStatesArg]
-    //
-    //     // update video and THREE faceFollowers poses:
-    //     JeelizThreeFiberHelper.update(detectStates, _threeFiber.camera)
-    //
-    //     // render the video texture on the faceFilter canvas:
-    //     JEELIZFACEFILTER.render_video()
-    //
-    //     // get expressions factors:
-    //     detectStates.forEach((detectState, faceIndex) => {
-    //         const exprIn = detectState.expressions
-    //         const expression = _expressions[faceIndex]
-    //         expression.mouthOpen = exprIn[0]
-    //         expression.mouthSmile = exprIn[1]
-    //         expression.eyebrowFrown = exprIn[2] // not used here
-    //         expression.eyebrowRaised = exprIn[3] // not used here
-    //     })
-    // }
+    const callbackTrack = (detectStatesArg) => {
+        // if 1 face detection, wrap in an array:
+        const detectStates = (detectStatesArg.length) ? detectStatesArg : [detectStatesArg]
+
+        // update video and THREE faceFollowers poses:
+        JeelizThreeFiberHelper.update(detectStates, _threeFiber.camera)
+
+        // render the video texture on the faceFilter canvas:
+        JEELIZFACEFILTER.render_video()
+
+        // get expressions factors:
+        detectStates.forEach((detectState, faceIndex) => {
+            const exprIn = detectState.expressions
+            const expression = _expressions[faceIndex]
+            expression.mouthOpen = exprIn[0]
+            expression.mouthSmile = exprIn[1]
+            expression.eyebrowFrown = exprIn[2] // not used here
+            expression.eyebrowRaised = exprIn[3] // not used here
+        })
+    }
 
 
     const callbackDetect = (faceIndex, isDetected) => {
@@ -187,15 +185,15 @@ const SpiritAR = () => {
         window.addEventListener('resize', handle_resize)
         window.addEventListener('orientationchange', handle_resize)
 
-        // JEELIZFACEFILTER.init({
-        //     canvas: faceFilterCanvasRef.current,
-        //     NNC: NN_4EXPR,
-        //     maxFacesDetected: 1,
-        //     followZRot: true,
-        //     callbackReady,
-        //     callbackTrack
-        // })
-        // return JEELIZFACEFILTER.destroy
+        JEELIZFACEFILTER.init({
+            canvas: faceFilterCanvasRef.current,
+            NNC: NN_4EXPR,
+            maxFacesDetected: 1,
+            followZRot: true,
+            callbackReady,
+            callbackTrack
+        })
+        return JEELIZFACEFILTER.destroy
     }, [isInitialized])
 
     console.log('RENDER')
@@ -214,15 +212,15 @@ const SpiritAR = () => {
                         preserveDrawingBuffer: true // allow image capture
                     }}
             >
-                {/*<ThreeGrabber sizing={sizing} />*/}
+                <ThreeGrabber sizing={sizing} />
                 <ambientLight />
                 <pointLight position={[10, 10, 10]} />
-                {/*<FaceFollower faceIndex={0} expression={_expressions[0]} />*/}
+                <FaceFollower faceIndex={0} expression={_expressions[0]} />
                 {/*<HenryLsd position={[-0, -1.5, 0]}/>*/}
                 <Suspense>
                     {/*<Bird/>*/}
                     {/*<Fish />*/}
-                    <Bird position={[0, 0, 0]}/>
+
 
                 </Suspense>
                 <EffectComposer>
@@ -230,7 +228,7 @@ const SpiritAR = () => {
                     <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
                     <Noise opacity={0.02} />
                     <Vignette eskil={false} offset={0.1} darkness={1.1} />
-                    <Pixelation granularity={20} />
+                    <Pixelation granularity={5} />
                 </EffectComposer>
             </Canvas>
 
@@ -242,11 +240,11 @@ const SpiritAR = () => {
             }} width = {sizing.width} height = {sizing.height} />
         </div>
 
-    <Fab>
-        <ButtonPrimary onClick={() => true}>
-        Snapshot
-        </ButtonPrimary>
-    </Fab>
+            <Fab>
+                <ButtonPrimary onClick={() => true}>
+                    Snapshot
+                </ButtonPrimary>
+            </Fab>
     </>
     )
 }
