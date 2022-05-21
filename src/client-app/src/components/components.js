@@ -7,7 +7,8 @@ import RecordButtonSrc from "../components/RecordButton.svg"
 import {useNavigate} from "react-router-dom";
 import {Backward} from "framework7-icons/react";
 
-export const MainTitleImage = () => <img alt="Main title" src={MainTitleSrc} />
+export const MainTitleImage = () => <img style={{width:"100vw"}} alt="Main title" src={MainTitleSrc} />
+
 export const Center = styled('div')`
   display: flex;
   justify-content: center;
@@ -84,7 +85,7 @@ export const HeaderNav = styled('div')`
 export const Back = () => {
 
     const navigate = useNavigate()
-    return  <div className={"mr-2"}>
+    return  <div className={"mr-2"} style={{marginRight: "1rem", marginTop:"0.5rem"}}>
         <Backward style={{fill: "#3FB667", rightMargin:"2em"}} width={"2em"} height={"2em"} onClick={() => navigate('/')}/>
     </div>
 }
@@ -154,6 +155,21 @@ export const GradientButtonLong = styled('button')`
   color: white;
   text-align: center;
   font-size: x-large;
+`
+
+export const GradientDiv = styled('button')`
+  margin-top:20px;
+ 
+  
+  background: rgba(72,161,113,.8);
+  padding: 12px 32px;
+  border-radius: 10px;
+  border-color: transparent;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  color: white;
+  text-align: center;
 `
 
 export const MarginDefault = styled('div')`

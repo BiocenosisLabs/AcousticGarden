@@ -58,9 +58,9 @@ export const RecordingFeedbackScreen = ({onSend}) => {
             <PageContainer className={"h-full flex"}>
 
 
-                <div className={"flex flex-1 flex-row m-16 my-auto"}>
+                <div className={"flex flex-1 flex-row my-auto"} style={{marginRight: "auto", marginLeft: "auto"}}>
                     <div>
-                        <img src={"/dc.png"} width={"90px"} height={"90px"} style={{width: 90, height: 90}}/>
+                        <img src={"/dc.png"} width={"90px"} height={"90px"} style={{minWidth: "90px", width: 90, height: 90}}/>
                     </div>
                     <div className={"relative"}>
                         <img src={"/WavVector.svg"} height={"70px"} className={""}/>

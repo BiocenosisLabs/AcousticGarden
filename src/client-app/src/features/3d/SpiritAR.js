@@ -11,7 +11,7 @@ import { JEELIZFACEFILTER, NN_4EXPR } from 'facefilter'
 // import THREE.js helper, useful to compute pose
 // The helper is not minified, feel free to customize it (and submit pull requests bro):
 import { JeelizThreeFiberHelper } from './threehelper.js'
-import {ButtonPrimary} from "../../components/components";
+import {GradientDiv} from "../../components/components";
 // import HenryLsd from "./HenryLsd";
 // import Fish from "./Fish";
 
@@ -243,9 +243,9 @@ const SpiritAR = () => {
         </div>
 
     <Fab>
-        <ButtonPrimary onClick={() => true}>
-        Snapshot
-        </ButtonPrimary>
+        <GradientDiv >
+        Use your phone to take a screenshot, and share with the hashtag #AcousticGardens
+        </GradientDiv>
     </Fab>
     </>
     )
