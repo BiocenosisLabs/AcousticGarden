@@ -1,7 +1,7 @@
 import { Joi, Segments } from "celebrate";
 
 const defaultValidation = {
-  user: Joi.number().required(),
+  user: Joi.number(),
   recording: Joi.number().required(),
 };
 
