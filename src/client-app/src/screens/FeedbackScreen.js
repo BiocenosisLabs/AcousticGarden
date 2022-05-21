@@ -69,7 +69,7 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
     const [lng, setLng] = useState(location?.longitude ?? center[0]);
     const [lat, setLat] = useState(location?.latitude ?? center[1]);
     const [zoom, setZoom] = useState(12);
-    const [isInitialized] = useState(false)
+    const [pixelation, setPixelation] = useState(40);
     const [sizing, setSizing] = useState(compute_sizing())
 
     const birdRef = useRef(null);
@@ -78,8 +78,12 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
     const lightRef2 = useRef(null);
 
 
-
     useEffect(() => {
+
+
+        console.log({feedback})
+        // get feedback and set pixelation
+
         if (map.current) {
             map.current.setCenter(location)
             return;
@@ -90,7 +94,7 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
             center: location,
             zoom: zoom
         });
-    }, [isInitialized]);
+    }, []);
 
     function Circle(props) {
         // This reference gives us direct access to the THREE.Mesh object
@@ -142,6 +146,16 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
             takeScreenshot = true
         }
     }
+
+    const traits = Object.keys(feedback ?? {}).map(key => {
+
+        return <div>
+            <span> {key} :</span>:
+            <span> {JSON.stringify(traits[key])} </span>
+        </div>
+    })
+
+    console.log({traits})
 
 
     return (
@@ -202,7 +216,7 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
 
                             <Noise opacity={0.02}/>
                             <Vignette eskil={false} offset={0.1} darkness={1.1}/>
-                            <Pixelation granularity={15}/>
+                            <Pixelation granularity={pixelation}/>
                         </EffectComposer>
                     </Suspense>
                     <OrbitControls />
@@ -239,12 +253,7 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
                                 You Contributed + 5 EXP
                             </div>
 
-                            { Object.entries(feedback).forEach(([val,obj]) => {
-                                return <div>
-                                    <span> {{val}} :</span>:
-                                    <span> {JSON.stringify(val)} </span>
-                                </div>
-                            }) }
+                            {/*{{ traits ??  }}*/}
 
                         </div>
                     </div>

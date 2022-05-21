@@ -52,7 +52,7 @@ export function AuthScreen({onAuth}) {
             <div  >
         <CenterBox>
             <div>
-                <form className="m-4 flex">
+                <div className="m-4 flex">
                     <input
                         className="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
                         placeholder="Us3rN4me"
@@ -60,12 +60,12 @@ export function AuthScreen({onAuth}) {
                         onChange={handleChange}
                         id={"username"}
                     />
-                    <button
+                    <div
                         onClick={handleLogin}
                         className="px-8 rounded-r-lg bg-purple-800 text-gray-200 font-bold p-4 uppercase border-purple-700 border-t border-b border-r">
                         Enter
-                    </button>
-                </form>
+                    </div>
+                </div>
             </div>
 
         </CenterBox>

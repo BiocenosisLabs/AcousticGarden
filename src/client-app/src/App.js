@@ -106,7 +106,7 @@ function App() {
         onClickBrowse: () => navigate('/browse'),
         onClickInfo: () => navigate('/info'),
         onClickMyData: () => navigate('/mydata'),
-        onClickPlay: () => navigate('/encounter'),
+        onClickPlay: () => navigate('/auth'),
     }
 
 
