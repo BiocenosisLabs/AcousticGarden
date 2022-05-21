@@ -91,6 +91,18 @@ export const Back = () => {
 }
 
 export const FrostedCard = styled('div')`
+  background: rgba(63, 182, 103, 0.68);
+  box-shadow: 0px 20px 40px rgba(238, 60, 137, 0.15);
+  backdrop-filter: blur(20px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 19px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+`
+
+export const HomePageFrostedCard = styled('div')`
   background: rgba(63, 182, 103, 0.8);
   box-shadow: 0px 20px 40px rgba(238, 60, 137, 0.15);
   backdrop-filter: blur(20px);
