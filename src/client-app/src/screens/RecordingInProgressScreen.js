@@ -20,14 +20,12 @@ export function RecordingInProgressScreen({onStop,recordingLimit}) {
            <Back />
            <MainTitle />
        </HeaderNav>
-       <PageContainer className={"h-full flex"}>
-           <div  >
-               <CenterBox>
+       <PageContainer>
+               <CenterBox className={"h-max flex-1"}>
                    <BackgroundBubble className={"w-full h-96 prose prose-h1 prose-invert prose-2xl opacity-40 flex flex-1 justify-center align-middle content-center"}>
                        <Timer limit={recordingLimit} elapsed={elapsed ?? 0}/>
                    </BackgroundBubble>
                </CenterBox>
-           </div>
        </PageContainer>
    </BackgroundContainer>
 }

@@ -13,6 +13,8 @@ export const Center = styled('div')`
   justify-content: center;
   width: 100%;
   fill: #3FB667;
+  margin: auto auto;
+  flex: 1;
 `
 
 
@@ -45,43 +47,45 @@ export const LinePrimary = styled('div')`
   height: 50%;
 `
 
-export const Background = styled('div')`
-  background: linear-gradient(180deg, rgba(39, 0, 63, 1) 0%, rgba(30, 0, 22, 1) 100%);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-  //max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-content: center;
-  margin: auto auto;
-`
+// export const Background = styled('div')`
+//   background: linear-gradient(180deg, rgba(39, 0, 63, 1) 0%, rgba(30, 0, 22, 1) 100%);
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   z-index: -1;
+//   //max-width: 800px;
+//   display: flex;
+//   flex-direction: column;
+//   flex: 1;
+//   align-content: center;
+//   margin: auto auto;
+// `
 
 export const ScreenContainer = styled('div')`
   padding: 20px;
 `
 
-export const BackgroundContainer = ({children}) =>
-    <Background>
+export const Background = ({children}) => <>({children})</>
+export const BackgroundContainer = ({children}) => <>({children})</>
+    // <Background>
         {/*<ScreenContainer>*/}
-            {children}
+
         {/*</ScreenContainer>*/}
-    </Background>
+    // </Background>
 
 export const HeaderNav = styled('div')`
   padding: 20px;
+  padding-top:10px;
   display: flex;
-  color:white;
+  fill: #3FB667;
 `
 export const Back = () => {
 
     const navigate = useNavigate()
-    return  <div>
-        <Backward className={"fill-purple-800"} width={"2em"} height={"2em"} onClick={() => navigate('/')}/>
+    return  <div className={"mr-2"}>
+        <Backward style={{fill: "#3FB667", rightMargin:"2em"}} width={"2em"} height={"2em"} onClick={() => navigate('/')}/>
     </div>
 }
 
@@ -100,6 +104,7 @@ export const FrostedCard = styled('div')`
 
 export const PageContainer = styled('div')`
   margin: 20px;
+  display: flex;
   flex-direction: column;
   justify-content: center;
 `
@@ -158,9 +163,12 @@ export const MarginDefault = styled('div')`
 export const ButtonPrimary = styled(GradientButtonLong)`
 
 `
-export const HeaderTitle = () => <span className={"prose text-4xl prose-invert"}>
-                        Acoustic Gardens
-                    </span>
+export const HeaderTitle = MainTitleImage;
+
+
+// () => <span className={"prose text-4xl prose-invert"}>
+ //                       Acoustic Gardens
+  //                  </span>
 
 //
 // export const ButtonPrimary = (props) => (

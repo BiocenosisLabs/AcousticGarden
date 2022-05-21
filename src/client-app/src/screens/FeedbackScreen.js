@@ -16,9 +16,19 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import Bird from "../features/3d/Bird";
 import {useStore} from "../store";
-import {ButtonPrimary, HeaderNav, HeaderTitle} from "../components/components";
+import {
+    Back,
+    ButtonPrimary,
+    FrostedCard,
+    HeaderNav,
+    HeaderTitle,
+    MainTitle,
+    RecordButton
+} from "../components/components";
 import styled from "styled-components";
 import {KernelSize, Resolution as Resizer} from "postprocessing";
+import Lizzie from "../features/3d/Lizzie";
+import {deC} from "./BrowseAreaScreen"
 // import Henry from "../features/3d/Henry";
 // import HenryLsd from "../features/3d/HenryLsd";
 // import Fish from "../features/3d/Fish";
@@ -27,26 +37,29 @@ import {KernelSize, Resolution as Resizer} from "postprocessing";
 
 const compute_sizing = () => {
     // compute  size of the canvas:
-    const height = window.innerHeight / 2
-    const wWidth = window.innerWidth / 1.2
-    const width = Math.min(wWidth, height)
+    const height = window.innerHeight / 3
+    const wWidth = window.innerWidth
+    const width = window.innerWidth * 0.90
+    // const width = Math.min(wWidth, height)
 
     // compute position of the canvas:
-    const top = 70
-    const left = (wWidth - width) + (window.innerWidth - wWidth) / 2
-    return {width, height, top, left, borderRadius: '20px',}
+    const top = window.innerHeight * 0.10
+    const left = (wWidth-width) / 2
+    return {width, height, top, left, borderRadius: '15px',}
 }
+
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVsbG9rb3ptbyIsImEiOiJjbDJyaTRxeWQwNDI2M2Nucnlyd3V1OTRrIn0.OxZp7HHu2oZ4WFjF8KKGcg';
 
 const center = [51.505, -0.09]
 
-export default function FeedbackScreen({onSnap}) {
+export default function FeedbackScreen({onSnap, onBrowse}) {
 
     const hasPermissions = useStore((state) => state.hasPermissions)()
     const locationLatLng = useStore((state) => state.locationLatLng)
-    const location = [locationLatLng?.longitude ?? 1.0, locationLatLng?.latitude ?? 1.0]
+    const location = [locationLatLng?.longitude ?? deC[0], locationLatLng?.latitude ?? deC[1]]
+    const feedback = useStore((state) => state.feedback)
 
     console.log("FeedbackScreen location:", location)
 
@@ -63,6 +76,8 @@ export default function FeedbackScreen({onSnap}) {
     const sparkleRef = useRef(null);
     const lightRef1 = useRef(null);
     const lightRef2 = useRef(null);
+
+
 
     useEffect(() => {
         if (map.current) {
@@ -132,13 +147,14 @@ export default function FeedbackScreen({onSnap}) {
     return (
         <>
             <HeaderNav>
-                <HeaderTitle/>
+                <Back />
+                <MainTitle className={"m-auto"}/>
             </HeaderNav>
             <CanvasContainers>
                 {/* Canvas managed by three fiber, for AR: */}
                 <Canvas invalidateFrameloop shadowMap className='mirrorX' style={{
-                    position: 'fixed',
-                    zIndex: 2,
+                    position: 'absolute',
+                    zIndex: 3,
                     ...sizing
                 }}
                         gl={{
@@ -157,8 +173,11 @@ export default function FeedbackScreen({onSnap}) {
                         {/*<Circle position={[0, 0, -2]} />*/}
                             <Suspense fallback={null}>
                                 {/**/}
-                                <Sparkles ref={sparkleRef} position={[0, 0, 0]} scale={2}/>
-                                <Bird refa={birdRef} position={[0, 0, 0]}/>
+                                <Sparkles ref={sparkleRef} position={[0, 0, 0]} scale={5}/>
+                                {/*<Bird refa={birdRef} position={[0, 0, 0]}/>*/}
+                                <Lizzie position={[0, 0, 0]}/>
+
+
                                 {/*<Henry position={[0, 0, 0]}/>*/}
                                 {/*<HenryLsd position={[-0, -1.5, 0]}/>*/}
 
@@ -190,17 +209,59 @@ export default function FeedbackScreen({onSnap}) {
 
                 </Canvas>
 
-                {/* Canvas managed by FaceFilter, just displaying the video (and used for WebGL computations) */}
                 <div ref={mapContainer} className='map mirrorX' style={{
-                    position: 'fixed',
+                    position: 'absolute',
                     zIndex: 1,
                     ...sizing
-                }} width={sizing.width} height={sizing.height}/>
+                }}/>
+
+                <div style={{
+                    position: 'absolute',
+                    zIndex: 2,
+                    ...sizing
+                }}>
+                    <div className={"mt-10 ml-5 prose prose-2xl prose-orange"}>
+                        Spirit Level 24
+                    </div>
+                </div>
             </CanvasContainers>
 
-            <ButtonPrimary onClick={onSnap}>
-                Snap
-            </ButtonPrimary>
+
+            <div style={{marginTop: sizing.height, marginLeft: "auto", marginRight:"auto", width:"90vw"}}>
+
+                <FrostedCard style>
+                    <div className={"flex flex-1"}>
+                        <div className={"opacity-80"}>
+                            <RecordButton />
+                        </div>
+                        <div className={"flex flex-col flex-1 prose prose-invert"}>
+                            <div>
+                                You Contributed + 5 EXP
+                            </div>
+
+                            { Object.entries(feedback).forEach(([val,obj]) => {
+                                return <div>
+                                    <span> {{val}} :</span>:
+                                    <span> {JSON.stringify(val)} </span>
+                                </div>
+                            }) }
+
+                        </div>
+                    </div>
+                </FrostedCard>
+                {/*<ButtonPrimary onClick={onSnap}>*/}
+                {/*    Take a picture*/}
+                {/*</ButtonPrimary>*/}
+                <span>
+                    This is an avatar or genius loci is collectively generated by your observations.
+                </span>
+                <ButtonPrimary onClick={onBrowse}>
+                    Browse other spirits
+                </ButtonPrimary>
+            </div>
+
+
+
         </>
     )
 
@@ -208,6 +269,6 @@ export default function FeedbackScreen({onSnap}) {
 
 export const CanvasContainers = styled('div')`
   border-radius: 20px;
-  margin: 20px;
-  height: 50vh
+  margin: 10px;
+  //height: 20vh // Controlled by sizing
 `

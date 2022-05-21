@@ -36,8 +36,8 @@ var delta = 0;
 const compute_sizing = () => {
     // compute  size of the canvas:
     const height = window.innerHeight
-    const wWidth = window.innerWidth
-    const width = Math.min(wWidth, height)
+    const width = window.innerWidth
+    // const width = Math.min(wWidth, height)
 
     // compute position of the canvas:
     const top = 0
@@ -48,7 +48,7 @@ const compute_sizing = () => {
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiaGVsbG9rb3ptbyIsImEiOiJjbDJyaTRxeWQwNDI2M2Nucnlyd3V1OTRrIn0.OxZp7HHu2oZ4WFjF8KKGcg';
 
-const deC = [4.911482500895545,52.39438086623716]
+export const deC = [4.911482500895545,52.39438086623716]
 // lat: 52.39386153641274
 // lng: 4.90947968270882
 // parameters to ensure the model is georeferenced correctly on the map

@@ -21,7 +21,8 @@ import BrowseAreaScreen from "./screens/BrowseAreaScreen";
 
 
 const AuthFirst = ({children}) => {
-    const isAuthed = useStore((state) => state.isAuthed)()
+    // const isAuthed = useStore((state) => state.isAuthed)()
+    const isAuthed = true //It's a demo
     return isAuthed ? children : <Navigate to="/auth"/>;
 };
 
@@ -105,7 +106,7 @@ function App() {
         onClickBrowse: () => navigate('/browse'),
         onClickInfo: () => navigate('/info'),
         onClickMyData: () => navigate('/mydata'),
-        onClickPlay: () => navigate('/play'),
+        onClickPlay: () => navigate('/encounter'),
     }
 
 
@@ -142,6 +143,10 @@ function App() {
                 path={"/"}
                 element={<HomeScreen {...homeActions} />}
             />
+            <Route
+                path={"/play"}
+                element={<HomeScreen {...homeActions} />}
+            />
 
             {/*<Route*/}
             {/*    path={"/browse"}*/}
@@ -150,22 +155,24 @@ function App() {
                 {/*    />}*/}
             {/*/>*/}
 
+
             <Route
-                path={"/play"}
+                path={"/auth"}
+                element={
+                        <AuthScreen
+                            onAuth={() => navigate('/encounter')}
+                        />
+                }
+            />
+
+            <Route
+                path={"/encounter"}
                 element={
                     <AuthFirst>
                         <EncounterMapScreen
                             onRecordPress={handleRecordPressed}
                         />
                     </AuthFirst>
-                }
-            />
-            <Route
-                path={"/auth"}
-                element={
-                        <AuthScreen
-                            onAuth={() => navigate('/play')}
-                        />
                 }
             />
 
@@ -195,6 +202,7 @@ function App() {
                 path={"/feedback"}
                 element={<FeedbackScreen
                     onSnap={() => navigate('/snapshot')}
+                    onBrowse={() => navigate('/browse')}
                 />}
             />
 
