@@ -194,7 +194,7 @@ const SpiritVoxel = () => {
                     <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
                     <Noise opacity={0.02} />
                     <Vignette eskil={false} offset={0.1} darkness={1.1} />
-                    <Pixelation granularity={20} />
+                    <Pixelation granularity={0} />
                 </EffectComposer>
             </Canvas>
 

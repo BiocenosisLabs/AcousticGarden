@@ -239,7 +239,7 @@ export default function FeedbackScreen({onSnap, onBrowse}) {
 
                             <Noise opacity={0.02}/>
                             <Vignette eskil={false} offset={0.1} darkness={1.1}/>
-                            <Pixelation granularity={pixelation}/>
+                            <Pixelation granularity={0}/>
                         </EffectComposer>
                     </Suspense>
                     <OrbitControls />
